@@ -1,0 +1,14 @@
+{
+  "name": "dominitos",
+  "version": "0.1",
+  "main": "index.js",
+  "author": "barbac <jjbarbac+git@gmail.com>",
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "three": "^0.86.0"
+  },
+  "devDependencies": {
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.5.0"
+  }
+}

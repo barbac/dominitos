@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import _ from 'lodash';
 
 
 const dominoes = [
@@ -19,9 +20,11 @@ const dominoes = [
 let scene, camera, renderer;
 let hand, destination;
 let dominoMeshes;
+let processFrame;
 
 
 init();
+animationInit();
 animate();
 
 function init() {
@@ -67,7 +70,47 @@ function init() {
 
 }
 
+function* moveObjects() {
+  const handPosition = new THREE.Vector3();
+  handPosition.copy(hand.position);
+  const step = new THREE.Vector3();
+
+  for (let [data, mesh] of _.zip(dominoes, dominoMeshes)) {
+    destination.position.set(data.x, data.y, data.z);
+    const currentDestination = destination.position;
+
+    //nove body
+
+    //set hand position
+    hand.position.copy(handPosition);
+
+    //Move from rest position to current destination.
+    //divided by 7 to make it faster.
+    const distance = handPosition.distanceTo(currentDestination) / 7;
+    step.subVectors(currentDestination, handPosition);
+    step.divideScalar(distance);
+    for (let i = 0; i <= distance; ++i) {
+      hand.position.add(step);
+      mesh.rotation.y += 0.02;
+      yield;
+    }
+
+    //reverse motion untill rest position.
+
+    // break;
+  };
+}
+
+function animationInit() {
+  processFrame = moveObjects();
+}
+
 function animate() {
+  if (!processFrame.next().done) {
+    requestAnimationFrame(animate);
+  } else {
+    console.log('done');
+  }
 
   renderer.render(scene, camera);
 }

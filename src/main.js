@@ -33,14 +33,22 @@ function init() {
   camera = new THREE.PerspectiveCamera(
     75, window.innerWidth / window.innerHeight, 1, 10000
   );
-  camera.position.z = 1000;
+
+  const planeSize = 1000;
+  camera.position.x = planeSize / 2;
+  camera.position.y = planeSize / 4;
+  camera.position.z = planeSize / 2;
+  camera.lookAt(new THREE.Vector3());
+
+  const grid = new THREE.GridHelper(planeSize, planeSize / 10);
+  scene.add(grid);
 
   const handGeometry = new THREE.SphereGeometry(15, 32, 32);
   const handMaterial = new THREE.MeshBasicMaterial({ color: 0x7CFC00 });
   hand = new THREE.Mesh(handGeometry, handMaterial);
-  hand.position.x = -1600;
+  hand.position.x = 1000;
   hand.position.y = 0;
-  hand.position.z = -600;
+  hand.position.z = 1000;
   scene.add(hand);
 
   destination = new THREE.Mesh(handGeometry, new THREE.MeshBasicMaterial({ color: 0xFF1493 }));

@@ -4,15 +4,15 @@ import _ from 'lodash';
 
 const dominoes = [
   {
-    x: 0, y: 0, z:0,
+    x: 100, y: 0, z: 0,
     color: 'blue',
   },
   {
-    x: 120, y: 0, z:0,
+    x: 220, y: 0, z: 0,
     color: 'red',
   },
   {
-    x: 240, y: 0, z:0,
+    x: 340, y: 0, z: 0,
     color: 'yellow',
   },
 ];
@@ -43,18 +43,26 @@ function init() {
   const grid = new THREE.GridHelper(planeSize, planeSize / 10);
   scene.add(grid);
 
-  const handGeometry = new THREE.SphereGeometry(15, 32, 32);
+  const sphere = new THREE.SphereGeometry(10, 32, 32);
+
+  const centerIndicator = new THREE.Mesh(
+    sphere, new THREE.MeshBasicMaterial({ color: 0xFFFFFF })
+  );
+  scene.add(centerIndicator);
+
   const handMaterial = new THREE.MeshBasicMaterial({ color: 0x7CFC00 });
-  hand = new THREE.Mesh(handGeometry, handMaterial);
+  hand = new THREE.Mesh(sphere, handMaterial);
   hand.position.x = 1000;
   hand.position.y = 0;
   hand.position.z = 1000;
   scene.add(hand);
 
-  destination = new THREE.Mesh(handGeometry, new THREE.MeshBasicMaterial({ color: 0xFF1493 }));
+  destination = new THREE.Mesh(
+    sphere, new THREE.MeshBasicMaterial({ color: 0xFF1493 })
+  );
   scene.add(destination);
 
-  const dominoGeometry = new THREE.BoxGeometry(100, 200, 20);
+  const dominoGeometry = new THREE.BoxGeometry(100, 200, 10);
   const materials = {
     blue: new THREE.MeshBasicMaterial({ color: 0x1E90FF }),
     yellow: new THREE.MeshBasicMaterial({ color: 0xffff00 }),

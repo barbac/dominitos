@@ -4,18 +4,22 @@ import _ from 'lodash';
 
 const dominoes = [
   {
-    x: 100, y: 0, z: 0,
+    x: 10, y: 0, z: 0,
     color: 'blue',
   },
   {
-    x: 220, y: 0, z: 0,
+    x: 20, y: 0, z: 0,
     color: 'red',
   },
   {
-    x: 340, y: 0, z: 0,
+    x: 30, y: 0, z: 0,
     color: 'yellow',
   },
 ];
+
+const dominoHeight = 4.8;
+const dominoWidth = 2.4;
+const dominoThickness = 0.7;
 
 let scene, camera, renderer;
 let hand, destination;
@@ -34,16 +38,16 @@ function init() {
     75, window.innerWidth / window.innerHeight, 1, 10000
   );
 
-  const planeSize = 1000;
+  const planeSize = 100;
   camera.position.x = planeSize / 2;
   camera.position.y = planeSize / 4;
   camera.position.z = planeSize / 2;
   camera.lookAt(new THREE.Vector3());
 
-  const grid = new THREE.GridHelper(planeSize, planeSize / 10);
+  const grid = new THREE.GridHelper(planeSize, planeSize);
   scene.add(grid);
 
-  const sphere = new THREE.SphereGeometry(10, 32, 32);
+  const sphere = new THREE.SphereGeometry(1, 32, 32);
 
   const centerIndicator = new THREE.Mesh(
     sphere, new THREE.MeshBasicMaterial({ color: 0xFFFFFF })
@@ -52,9 +56,9 @@ function init() {
 
   const handMaterial = new THREE.MeshBasicMaterial({ color: 0x7CFC00 });
   hand = new THREE.Mesh(sphere, handMaterial);
-  hand.position.x = 1000;
+  hand.position.x = -planeSize / 2;
   hand.position.y = 0;
-  hand.position.z = 1000;
+  hand.position.z = planeSize / 2;
   scene.add(hand);
 
   destination = new THREE.Mesh(
@@ -62,7 +66,9 @@ function init() {
   );
   scene.add(destination);
 
-  const dominoGeometry = new THREE.BoxGeometry(100, 200, 10);
+  const dominoGeometry = new THREE.BoxGeometry(
+    dominoWidth, dominoHeight, dominoThickness
+  );
   const materials = {
     blue: new THREE.MeshBasicMaterial({ color: 0x1E90FF }),
     yellow: new THREE.MeshBasicMaterial({ color: 0xffff00 }),
@@ -101,8 +107,8 @@ function* moveObjects() {
     hand.position.copy(handPosition);
 
     //Move from rest position to current destination.
-    //divided by 7 to make it faster.
-    const distance = handPosition.distanceTo(currentDestination) / 7;
+    //multiplied by 3 to make it slower.
+    const distance = handPosition.distanceTo(currentDestination) * 3;
     step.subVectors(currentDestination, handPosition);
     step.divideScalar(distance);
     for (let i = 0; i <= distance; ++i) {

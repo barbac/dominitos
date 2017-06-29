@@ -2,6 +2,11 @@ import * as THREE from 'three';
 import _ from 'lodash';
 
 
+const planeSize = 100;
+const vehicleStartPosition = [
+  -planeSize / 2 + 10,
+  planeSize / 2 - 10
+];
 const dominoes = [
   {
     x: 10, y: 0, z: 0,
@@ -22,7 +27,7 @@ const dominoWidth = 2.4;
 const dominoThickness = 0.7;
 
 let scene, camera, renderer;
-let hand, destination;
+let vehicle, hand, destination;
 let dominoMeshes;
 let processFrame;
 
@@ -38,7 +43,6 @@ function init() {
     75, window.innerWidth / window.innerHeight, 1, 10000
   );
 
-  const planeSize = 100;
   camera.position.x = planeSize / 2;
   camera.position.y = planeSize / 4;
   camera.position.z = planeSize / 2;
@@ -53,6 +57,16 @@ function init() {
     sphere, new THREE.MeshBasicMaterial({ color: 0xFFFFFF })
   );
   scene.add(centerIndicator);
+
+  const vehicleHeight = 10;
+  vehicle = new THREE.Mesh(
+    new THREE.BoxGeometry(20, vehicleHeight, 20),
+    new THREE.MeshBasicMaterial({ color: 0xFF8C00, wireframe: true })
+  );
+  vehicle.position.set(
+    vehicleStartPosition[0], vehicleHeight / 2, vehicleStartPosition[1]
+  );
+  scene.add(vehicle);
 
   const handMaterial = new THREE.MeshBasicMaterial({ color: 0x7CFC00 });
   hand = new THREE.Mesh(sphere, handMaterial);

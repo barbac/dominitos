@@ -93,8 +93,6 @@ function init() {
 }
 
 function* moveObjects() {
-  const handPosition = new THREE.Vector3();
-  handPosition.copy(hand.position);
   const step = new THREE.Vector3();
 
   for (let [data, mesh] of _.zip(dominoes, dominoMeshes)) {
@@ -104,11 +102,14 @@ function* moveObjects() {
     //nove body
 
     //set hand position
-    hand.position.copy(handPosition);
+    hand.position.x = data.x;
+    hand.position.z = data.z + 20;
+    const handPosition = hand.position;
+    yield;
 
     //Move from rest position to current destination.
     //multiplied by 3 to make it slower.
-    const distance = handPosition.distanceTo(currentDestination) * 3;
+    const distance = handPosition.distanceTo(currentDestination) * 8;
     step.subVectors(currentDestination, handPosition);
     step.divideScalar(distance);
     for (let i = 0; i <= distance; ++i) {

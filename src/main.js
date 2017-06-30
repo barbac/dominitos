@@ -22,6 +22,9 @@ const dominoes = [
   },
 ];
 
+const vehicleHeight = 10;
+const vehicleWidth = 10;
+
 const dominoHeight = 4.8;
 const dominoWidth = 2.4;
 const dominoThickness = 0.7;
@@ -58,9 +61,8 @@ function init() {
   );
   scene.add(centerIndicator);
 
-  const vehicleHeight = 10;
   vehicle = new THREE.Mesh(
-    new THREE.BoxGeometry(20, vehicleHeight, 20),
+    new THREE.BoxGeometry(vehicleWidth, vehicleHeight, vehicleWidth),
     new THREE.MeshBasicMaterial({ color: 0xFF8C00, wireframe: true })
   );
   vehicle.position.set(
@@ -113,7 +115,22 @@ function* moveObjects() {
     destination.position.set(data.x, data.y, data.z);
     const currentDestination = destination.position;
 
-    //nove body
+    //move body
+    const vehicleDominoGap = 20;
+    const vehicleZDistance = (
+      (vehicle.position.z - vehicleWidth / 2) - (data.z + vehicleDominoGap)
+    );
+    for (let i = 0; i <= vehicleZDistance; ++i) {
+      vehicle.position.z -= 1;
+      yield;
+    }
+
+    const vehicleXDistance = data.x - vehicle.position.x;
+    for (let i = 0; i <= vehicleXDistance; ++i) {
+      vehicle.position.x += 1;
+      yield;
+    }
+
 
     //set hand position
     hand.position.x = data.x;

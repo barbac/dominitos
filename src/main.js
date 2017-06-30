@@ -95,7 +95,7 @@ function init() {
   dominoMeshes = dominoes.map(dominoData => {
     domino = new THREE.Mesh(dominoGeometry, materials[dominoData.color]);
     domino.position.x = dominoData.x;
-    // domino.position.y = dominoData.y;
+    domino.position.y = dominoHeight / 2;
     domino.position.z = dominoData.z;
     return domino;
   });

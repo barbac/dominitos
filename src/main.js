@@ -135,16 +135,13 @@ function* moveObjects() {
     }
 
 
-    //set hand rest position
-    hand.position.copy(handRestPosition);
     const handPosition = hand.getWorldPosition();
-    yield;
-
-    //Move from rest position to current destination.
-    //multiplied by 3 to make it slower.
-    const distance = handPosition.distanceTo(currentDestination) * 8;
+    const speedFactor = 8; //multiplied to make it slower.
+    const distance = handPosition.distanceTo(currentDestination) * speedFactor;
     step.subVectors(currentDestination, handPosition);
     step.divideScalar(distance);
+
+    //Move from rest position to current destination.
     for (let i = 0; i <= distance; ++i) {
       hand.position.add(step);
       mesh.rotation.y += 0.02;
@@ -152,8 +149,11 @@ function* moveObjects() {
     }
 
     //reverse motion untill rest position.
-
-    // break;
+    for (let i = 0; i <= distance; ++i) {
+      hand.position.sub(step);
+      mesh.rotation.y -= 0.02;
+      yield;
+    }
   };
 }
 

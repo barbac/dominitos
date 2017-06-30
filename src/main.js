@@ -24,6 +24,11 @@ const dominoes = [
 
 const vehicleHeight = 10;
 const vehicleWidth = 10;
+const handRestPosition = new THREE.Vector3(
+  0,
+  vehicleHeight / 2 + 5,
+  vehicleWidth / 2 - 10
+)
 
 const dominoHeight = 4.8;
 const dominoWidth = 2.4;
@@ -72,10 +77,8 @@ function init() {
 
   const handMaterial = new THREE.MeshBasicMaterial({ color: 0x7CFC00 });
   hand = new THREE.Mesh(sphere, handMaterial);
-  hand.position.x = -planeSize / 2;
-  hand.position.y = 0;
-  hand.position.z = planeSize / 2;
-  scene.add(hand);
+  hand.position.copy(handRestPosition);
+  vehicle.add(hand);
 
   destination = new THREE.Mesh(
     sphere, new THREE.MeshBasicMaterial({ color: 0xFF1493 })
@@ -132,10 +135,9 @@ function* moveObjects() {
     }
 
 
-    //set hand position
-    hand.position.x = data.x;
-    hand.position.z = data.z + 20;
-    const handPosition = hand.position;
+    //set hand rest position
+    hand.position.copy(handRestPosition);
+    const handPosition = hand.getWorldPosition();
     yield;
 
     //Move from rest position to current destination.

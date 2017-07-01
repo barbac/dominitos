@@ -34,6 +34,12 @@ const dominoHeight = 4.8;
 const dominoWidth = 2.4;
 const dominoThickness = 0.7;
 
+const dominoDispenserLocation = new THREE.Vector3(
+  vehicleWidth / 2 + dominoHeight / 2,
+  vehicleHeight / 2 - dominoThickness / 2,
+  0
+);
+
 let scene, camera, renderer;
 let vehicle, hand, destination;
 let dominoMeshes;
@@ -74,6 +80,13 @@ function init() {
     vehicleStartPosition[0], vehicleHeight / 2, vehicleStartPosition[1]
   );
   scene.add(vehicle);
+
+  const dispenser = new THREE.Mesh(
+    new THREE.BoxGeometry(dominoHeight, dominoThickness, dominoHeight),
+    new THREE.MeshBasicMaterial({ color: 0xFFFFFF })
+  );
+  dispenser.position.copy(dominoDispenserLocation);
+  vehicle.add(dispenser);
 
   const handMaterial = new THREE.MeshBasicMaterial({ color: 0x7CFC00 });
   hand = new THREE.Mesh(sphere, handMaterial);

@@ -1,23 +1,25 @@
 import * as THREE from 'three';
 import _ from 'lodash';
 
-
 const planeSize = 100;
-const vehicleStartPosition = [
-  -planeSize / 2 + 10,
-  planeSize / 2 - 10
-];
+const vehicleStartPosition = [-planeSize / 2 + 10, planeSize / 2 - 10];
 const dominoes = [
   {
-    x: 10, y: 0, z: 0,
+    x: 10,
+    y: 0,
+    z: 0,
     color: 'blue',
   },
   {
-    x: 20, y: 0, z: 0,
+    x: 20,
+    y: 0,
+    z: 0,
     color: 'red',
   },
   {
-    x: 30, y: 0, z: 0,
+    x: 30,
+    y: 0,
+    z: 0,
     color: 'yellow',
   },
 ];
@@ -28,7 +30,7 @@ const handRestPosition = new THREE.Vector3(
   0,
   vehicleHeight / 2 + 5,
   vehicleWidth / 2 - 10
-)
+);
 
 const dominoHeight = 4.8;
 const dominoWidth = 2.4;
@@ -45,7 +47,6 @@ let vehicle, hand, destination;
 let dominoMeshes;
 let processFrame;
 
-
 init();
 animationInit();
 animate();
@@ -54,7 +55,10 @@ function init() {
   scene = new THREE.Scene();
 
   camera = new THREE.PerspectiveCamera(
-    75, window.innerWidth / window.innerHeight, 1, 10000
+    75,
+    window.innerWidth / window.innerHeight,
+    1,
+    10000
   );
 
   camera.position.x = planeSize / 2;
@@ -68,43 +72,49 @@ function init() {
   const sphere = new THREE.SphereGeometry(1, 32, 32);
 
   const centerIndicator = new THREE.Mesh(
-    sphere, new THREE.MeshBasicMaterial({ color: 0xFFFFFF })
+    sphere,
+    new THREE.MeshBasicMaterial({ color: 0xffffff })
   );
   scene.add(centerIndicator);
 
   vehicle = new THREE.Mesh(
     new THREE.BoxGeometry(vehicleWidth, vehicleHeight, vehicleWidth),
-    new THREE.MeshBasicMaterial({ color: 0xFF8C00, wireframe: true })
+    new THREE.MeshBasicMaterial({ color: 0xff8c00, wireframe: true })
   );
   vehicle.position.set(
-    vehicleStartPosition[0], vehicleHeight / 2, vehicleStartPosition[1]
+    vehicleStartPosition[0],
+    vehicleHeight / 2,
+    vehicleStartPosition[1]
   );
   scene.add(vehicle);
 
   const dispenser = new THREE.Mesh(
     new THREE.BoxGeometry(dominoHeight, dominoThickness, dominoHeight),
-    new THREE.MeshBasicMaterial({ color: 0xFFFFFF })
+    new THREE.MeshBasicMaterial({ color: 0xffffff })
   );
   dispenser.position.copy(dominoDispenserLocation);
   vehicle.add(dispenser);
 
-  const handMaterial = new THREE.MeshBasicMaterial({ color: 0x7CFC00 });
+  const handMaterial = new THREE.MeshBasicMaterial({ color: 0x7cfc00 });
   hand = new THREE.Mesh(sphere, handMaterial);
   hand.position.copy(handRestPosition);
   vehicle.add(hand);
 
   destination = new THREE.Mesh(
-    sphere, new THREE.MeshBasicMaterial({ color: 0xFF1493 })
+    sphere,
+    new THREE.MeshBasicMaterial({ color: 0xff1493 })
   );
   scene.add(destination);
 
   const dominoGeometry = new THREE.BoxGeometry(
-    dominoWidth, dominoHeight, dominoThickness
+    dominoWidth,
+    dominoHeight,
+    dominoThickness
   );
   const materials = {
-    blue: new THREE.MeshBasicMaterial({ color: 0x1E90FF }),
+    blue: new THREE.MeshBasicMaterial({ color: 0x1e90ff }),
     yellow: new THREE.MeshBasicMaterial({ color: 0xffff00 }),
-    red: new THREE.MeshBasicMaterial({ color: 0xB22222 }),
+    red: new THREE.MeshBasicMaterial({ color: 0xb22222 }),
   };
 
   let domino;
@@ -121,7 +131,6 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   document.body.appendChild(renderer.domElement);
-
 }
 
 function* moveObjects() {
@@ -133,9 +142,8 @@ function* moveObjects() {
 
     //move body
     const vehicleDominoGap = 20;
-    const vehicleZDistance = (
-      (vehicle.position.z - vehicleWidth / 2) - (data.z + vehicleDominoGap)
-    );
+    const vehicleZDistance =
+      vehicle.position.z - vehicleWidth / 2 - (data.z + vehicleDominoGap);
     for (let i = 0; i <= vehicleZDistance; ++i) {
       vehicle.position.z -= 1;
       yield;
@@ -146,7 +154,6 @@ function* moveObjects() {
       vehicle.position.x += 1;
       yield;
     }
-
 
     const handPosition = hand.getWorldPosition();
     const speedFactor = 8; //multiplied to make it slower.
@@ -167,7 +174,7 @@ function* moveObjects() {
       mesh.rotation.y -= 0.02;
       yield;
     }
-  };
+  }
 }
 
 function animationInit() {

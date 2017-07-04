@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import _ from 'lodash';
 
 const planeSize = 100;
 const vehicleStartPosition = [-planeSize / 2 + 10, planeSize / 2 - 10];
@@ -35,6 +34,7 @@ const handRestPosition = new THREE.Vector3(
 const dominoHeight = 4.8;
 const dominoWidth = 2.4;
 const dominoThickness = 0.7;
+//mass 8.35g
 
 const dominoDispenserLocation = new THREE.Vector3(
   vehicleWidth / 2 + dominoHeight / 2,
@@ -133,28 +133,65 @@ function init() {
   document.body.appendChild(renderer.domElement);
 }
 
-function* moveObjects() {
-  const step = new THREE.Vector3();
+function* generateMovements() {
+  /*
+    BODY:
+    rotate
+    go to z position
+    rotate right
+    go to x position
 
-  for (let [data, mesh] of _.zip(dominoes, dominoMeshes)) {
+    ARM:
+    go to ready position(between dispenser and destination)
+    go to pregrap position
+    go to grap position
+    grab
+    go back to pregrap position
+    go back to ready position
+    go to predesitnation
+    go to destination
+    release
+    go back to predesitnation
+    go back ready position
+    */
+
+  const vehicleDominoGap = 20;
+  const vehiclePosition = vehicle.position.clone();
+
+  for (let data of dominoes) {
     destination.position.set(data.x, data.y, data.z);
-    const currentDestination = destination.position;
 
     //move body
-    const vehicleDominoGap = 20;
     const vehicleZDistance =
-      vehicle.position.z - vehicleWidth / 2 - (data.z + vehicleDominoGap);
-    for (let i = 0; i <= vehicleZDistance; ++i) {
-      vehicle.position.z -= 1;
-      yield;
+      vehiclePosition.z - (vehicleWidth / 2 + data.z + vehicleDominoGap);
+    vehiclePosition.z -= vehicleZDistance;
+    yield ['fordward', vehicleZDistance];
+
+    const vehicleXDistance = data.x - vehiclePosition.x;
+    vehiclePosition.x += vehicleXDistance;
+    yield ['right', vehicleXDistance];
+  }
+}
+
+function* moveObjects() {
+  // const step = new THREE.Vector3();
+
+  for (let [movement, delta] of generateMovements()) {
+    // const currentDestination = destination.position;
+
+    if (movement === 'fordward') {
+      for (let i = 0; i <= delta; ++i) {
+        vehicle.position.z -= 1;
+        yield;
+      }
+    } else if (movement === 'right') {
+      for (let i = 0; i <= delta; ++i) {
+        vehicle.position.x += 1;
+        yield;
+      }
     }
 
-    const vehicleXDistance = data.x - vehicle.position.x;
-    for (let i = 0; i <= vehicleXDistance; ++i) {
-      vehicle.position.x += 1;
-      yield;
-    }
-
+    /*
     const handPosition = hand.getWorldPosition();
     const speedFactor = 8; //multiplied to make it slower.
     const distance = handPosition.distanceTo(currentDestination) * speedFactor;
@@ -174,6 +211,7 @@ function* moveObjects() {
       mesh.rotation.y -= 0.02;
       yield;
     }
+    */
   }
 }
 

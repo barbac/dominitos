@@ -170,15 +170,12 @@ function* generateMovements() {
     const vehicleXDistance = data.x - vehiclePosition.x;
     vehiclePosition.x += vehicleXDistance;
     yield ['right', vehicleXDistance];
+
   }
 }
 
 function* moveObjects() {
-  // const step = new THREE.Vector3();
-
   for (let [movement, delta] of generateMovements()) {
-    // const currentDestination = destination.position;
-
     if (movement === 'fordward') {
       for (let i = 0; i <= delta; ++i) {
         vehicle.position.z -= 1;
@@ -190,28 +187,6 @@ function* moveObjects() {
         yield;
       }
     }
-
-    /*
-    const handPosition = hand.getWorldPosition();
-    const speedFactor = 8; //multiplied to make it slower.
-    const distance = handPosition.distanceTo(currentDestination) * speedFactor;
-    step.subVectors(currentDestination, handPosition);
-    step.divideScalar(distance);
-
-    //Move from rest position to current destination.
-    for (let i = 0; i <= distance; ++i) {
-      hand.position.add(step);
-      mesh.rotation.y += 0.02;
-      yield;
-    }
-
-    //reverse motion untill rest position.
-    for (let i = 0; i <= distance; ++i) {
-      hand.position.sub(step);
-      mesh.rotation.y -= 0.02;
-      yield;
-    }
-    */
   }
 }
 

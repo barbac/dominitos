@@ -9,6 +9,7 @@ module.exports = {
   devServer: {
     port: 9000,
   },
+  devtool: 'cheap-module-eval-source-map',
   module: {
     rules: [
       {

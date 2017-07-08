@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-const planeSize = 100;
+const planeSize = 130;
 const vehicleStartPosition = [-planeSize / 2 + 10, planeSize / 2 - 10];
 const dominoes = [
   {
@@ -47,6 +47,12 @@ let vehicle, hand, destination;
 let dominoMeshes;
 let processFrame;
 
+const cameraPositions = {
+  bottomRight: [planeSize / 2, planeSize / 4, planeSize / 2],
+  middleRight: [planeSize / 1.5, planeSize / 4, 0],
+};
+let cameraPosition = cameraPositions.middleRight;
+
 init();
 animationInit();
 animate();
@@ -61,9 +67,7 @@ function init() {
     10000
   );
 
-  camera.position.x = planeSize / 2;
-  camera.position.y = planeSize / 4;
-  camera.position.z = planeSize / 2;
+  camera.position.fromArray(cameraPosition);
   camera.lookAt(new THREE.Vector3());
 
   const grid = new THREE.GridHelper(planeSize, planeSize);

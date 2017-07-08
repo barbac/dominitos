@@ -88,6 +88,18 @@ function init() {
   );
   scene.add(vehicle);
 
+  const markWidth = vehicleWidth / 10;
+  const topRightMark = new THREE.Mesh(
+    new THREE.BoxGeometry(markWidth, markWidth, markWidth),
+    new THREE.MeshBasicMaterial({ color: 0xffffff })
+  );
+  topRightMark.position.set(
+    vehicleWidth / 2,
+    vehicleHeight / 2 - markWidth / 2,
+    -vehicleWidth / 2
+  );
+  vehicle.add(topRightMark);
+
   const dispenser = new THREE.Mesh(
     new THREE.BoxGeometry(dominoHeight, dominoThickness, dominoHeight),
     new THREE.MeshBasicMaterial({ color: 0xffffff })
@@ -170,7 +182,6 @@ function* generateMovements() {
     const vehicleXDistance = data.x - vehiclePosition.x;
     vehiclePosition.x += vehicleXDistance;
     yield ['right', vehicleXDistance];
-
   }
 }
 

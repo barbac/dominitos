@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import makeArm from './arm.js';
 
 const planeSize = 130;
 const vehicleStartPosition = [-planeSize / 2 + 10, planeSize / 2 - 10];
@@ -25,11 +26,6 @@ const dominoes = [
 
 const vehicleHeight = 10;
 const vehicleWidth = 10;
-const handRestPosition = new THREE.Vector3(
-  0,
-  vehicleHeight / 2 + 5,
-  vehicleWidth / 2 - 10
-);
 
 const dominoHeight = 4.8;
 const dominoWidth = 2.4;
@@ -43,7 +39,7 @@ const dominoDispenserLocation = new THREE.Vector3(
 );
 
 let scene, camera, renderer;
-let vehicle, hand, destination;
+let vehicle, destination;
 let dominoMeshes;
 let processFrame;
 
@@ -70,6 +66,8 @@ function init() {
   camera.position.fromArray(cameraPosition);
   camera.lookAt(new THREE.Vector3());
 
+  //plane
+
   const grid = new THREE.GridHelper(planeSize, planeSize);
   scene.add(grid);
 
@@ -80,6 +78,8 @@ function init() {
     new THREE.MeshBasicMaterial({ color: 0xffffff })
   );
   scene.add(centerIndicator);
+
+  //vehicle
 
   vehicle = new THREE.Mesh(
     new THREE.BoxGeometry(vehicleWidth, vehicleHeight, vehicleWidth),
@@ -111,10 +111,12 @@ function init() {
   dispenser.position.copy(dominoDispenserLocation);
   vehicle.add(dispenser);
 
-  const handMaterial = new THREE.MeshBasicMaterial({ color: 0x7cfc00 });
-  hand = new THREE.Mesh(sphere, handMaterial);
-  hand.position.copy(handRestPosition);
-  vehicle.add(hand);
+  //arm
+
+  const arm = makeArm(vehicleHeight);
+  vehicle.add(arm.base);
+
+  //dominoes
 
   destination = new THREE.Mesh(
     sphere,

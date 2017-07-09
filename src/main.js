@@ -39,7 +39,8 @@ const dominoDispenserLocation = new THREE.Vector3(
 );
 
 let scene, camera, renderer;
-let vehicle, destination;
+let vehicle, arm;
+let destination;
 let dominoMeshes;
 let processFrame;
 
@@ -113,7 +114,7 @@ function init() {
 
   //arm
 
-  const arm = makeArm(vehicleHeight);
+  arm = makeArm(vehicleHeight);
   vehicle.add(arm.base);
 
   //dominoes
@@ -188,10 +189,25 @@ function* generateMovements() {
     const vehicleXDistance = data.x - vehiclePosition.x;
     vehiclePosition.x += vehicleXDistance;
     yield ['right', vehicleXDistance];
+
+    yield ['shoulderDown', Math.PI / 2];
+    yield ['shoulderUp', Math.PI / 2];
   }
 }
 
 function* moveObjects() {
+  const rotationStep = Math.PI / 180;
+  const partSettings = {
+    shoulderDown: {
+      part: arm.shoulder,
+      step: -rotationStep,
+    },
+    shoulderUp: {
+      part: arm.shoulder,
+      step: rotationStep,
+    },
+  };
+
   for (let [movement, delta] of generateMovements()) {
     if (movement === 'fordward') {
       for (let i = 0; i <= delta; ++i) {
@@ -201,6 +217,12 @@ function* moveObjects() {
     } else if (movement === 'right') {
       for (let i = 0; i <= delta; ++i) {
         vehicle.position.x += 1;
+        yield;
+      }
+    } else {
+      const settings = partSettings[movement];
+      for (let i = 0; i <= delta; i += rotationStep) {
+        settings.part.rotation.x += settings.step;
         yield;
       }
     }

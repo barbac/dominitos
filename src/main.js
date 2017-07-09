@@ -1,8 +1,6 @@
 import * as THREE from 'three';
 import makeArm from './arm.js';
 
-const planeSize = 130;
-const vehicleStartPosition = [-planeSize / 2 + 10, planeSize / 2 - 10];
 const dominoes = [
   {
     x: 10,
@@ -22,10 +20,23 @@ const dominoes = [
     z: 0,
     color: 'yellow',
   },
+  {
+    x: 50,
+    y: 0,
+    z: 0,
+    color: 'blue',
+  },
 ];
+
+const planeSize = 130;
 
 const vehicleHeight = 10;
 const vehicleWidth = 10;
+const vehicleStartPosition = new THREE.Vector3(
+  -planeSize / 2 + 10,
+  vehicleHeight / 2,
+  planeSize / 2 - 10
+);
 
 const dominoHeight = 4.8;
 const dominoWidth = 2.4;
@@ -47,8 +58,13 @@ let processFrame;
 const cameraPositions = {
   bottomRight: [planeSize / 2, planeSize / 4, planeSize / 2],
   middleRight: [planeSize / 1.5, planeSize / 4, 0],
+  inFrontOfVehicle: [vehicleStartPosition.x, vehicleHeight, vehicleWidth * -2],
 };
-let cameraPosition = cameraPositions.middleRight;
+let cameraPosition = cameraPositions.inFrontOfVehicle;
+let cameraFollowVehicle = false;
+if (cameraPosition === cameraPositions.inFrontOfVehicle) {
+  cameraFollowVehicle = true;
+}
 
 init();
 animationInit();
@@ -86,11 +102,7 @@ function init() {
     new THREE.BoxGeometry(vehicleWidth, vehicleHeight, vehicleWidth),
     new THREE.MeshBasicMaterial({ color: 0xff8c00, wireframe: true })
   );
-  vehicle.position.set(
-    vehicleStartPosition[0],
-    vehicleHeight / 2,
-    vehicleStartPosition[1]
-  );
+  vehicle.position.copy(vehicleStartPosition);
   scene.add(vehicle);
 
   const markWidth = vehicleWidth / 10;
@@ -210,6 +222,10 @@ function* moveObjects() {
 
   for (let [movement, delta] of generateMovements()) {
     if (movement === 'fordward') {
+      if (cameraFollowVehicle) {
+        camera.lookAt(vehicle.position);
+      }
+
       for (let i = 0; i <= delta; ++i) {
         vehicle.position.z -= 1;
         yield;
@@ -217,6 +233,12 @@ function* moveObjects() {
     } else if (movement === 'right') {
       for (let i = 0; i <= delta; ++i) {
         vehicle.position.x += 1;
+
+        if (cameraFollowVehicle) {
+          camera.position.x = vehicle.position.x;
+          camera.lookAt(vehicle.position);
+        }
+
         yield;
       }
     } else {

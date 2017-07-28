@@ -227,6 +227,7 @@ function* moveObjects() {
         yield;
       }
     } else if (movement === 'right') {
+      const initialPosition = vehicle.position.x;
       for (let i = 0; i <= delta; ++i) {
         vehicle.position.x += 1;
 
@@ -237,6 +238,11 @@ function* moveObjects() {
 
         yield;
       }
+
+      //since delta is not an integer the for loop can get a little farder.
+      vehicle.position.x = initialPosition + delta;
+      yield;
+
     } else {
       const settings = partSettings[movement];
       for (let i = 0; i <= delta; i += rotationStep) {

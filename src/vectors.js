@@ -19,6 +19,7 @@ function init() {
     100
   );
   camera.position.z = 10;
+  camera.position.y = 15;
 
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -33,12 +34,11 @@ function init() {
   grid.rotation.x = PI / 2;
   scene.add(grid);
 
-  const length0 = 10.8; // y axis
-  const length1 = 12;
+  const length0 = 20.8; // y axis
+  const length1 = 13;
   const length2 = 14.8;
   const length3 = 15.8;
-  const length4 = 10; // x axis
-
+  const length4 = 25; // x axis
 
   const v0 = new THREE.Vector2(0, length0);
   // const v1 = new THREE.Vector2(length1, 0);
@@ -59,25 +59,26 @@ function init() {
 
   line0.rotation.z = v0.angle();
 
-  const a = length4;
-  const b = length3 - length0;
-  const iLengthSquare = a**2 + b**2;
-  const iangleA = Math.atan(b / a);
-  // const iangleE = Math.atan(a / b);
+  const l2 = length4;
+  const l1 = length0 - length3;
+  const l3Square = l2 ** 2 + l1 ** 2;
+  const iangleA = Math.atan(l2 / l1);
+  // const iangleE = Math.atan(l1 / l2);
   const iangleC = Math.acos(
-    (-iLengthSquare + length1**2 + length2**2) /
-    (2 * length1 * length2)
+    (-l3Square + length1 ** 2 + length2 ** 2) / (2 * length1 * length2)
   );
   const iangleB = Math.acos(
-    (-(length2**2) + iLengthSquare + length1**2) /
-    (2 * Math.sqrt(iLengthSquare) * length1)
+    (-(length2 ** 2) + l3Square + length1 ** 2) /
+      (2 * Math.sqrt(l3Square) * length1)
   );
   // const iangleD = Math.acos(
-  //   (-(length1**2) + iLengthSquare + length2**2) /
-  //   (2 * Math.sqrt(iLengthSquare) * length2)
+  //   (-(length1**2) + l3Square + length2**2) /
+  //   (2 * Math.sqrt(l3Square) * length2)
   // );
 
-  line1.rotation.z = iangleA + iangleB;
+  const angle1 = iangleA + iangleB;
+
+  line1.rotation.z = angle1 - PI / 2;
   line1.position.y = v0.y;
 
   line2.rotation.z = iangleC + line1.rotation.z - PI;

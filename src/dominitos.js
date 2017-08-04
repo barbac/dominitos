@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import makeArm from './arm.js';
+import moveCommands from './moveCommands.js';
 
 const dominoes = [
   {
@@ -160,49 +161,6 @@ function init() {
   document.body.appendChild(renderer.domElement);
 }
 
-function* generateMovements() {
-  /*
-    BODY:
-    rotate
-    go to z position
-    rotate right
-    go to x position
-
-    ARM:
-    go to ready position(between dispenser and destination)
-    go to pregrap position
-    go to grap position
-    grab
-    go back to pregrap position
-    go back to ready position
-    go to predesitnation
-    go to destination
-    release
-    go back to predesitnation
-    go back ready position
-    */
-
-  const vehicleDominoGap = 20;
-  const vehiclePosition = vehicle.position.clone();
-
-  for (let data of dominoes) {
-    destination.position.set(data.x, data.y, data.z);
-
-    //move body
-    const vehicleZDistance =
-      vehiclePosition.z - (vehicleWidth / 2 + data.z + vehicleDominoGap);
-    vehiclePosition.z -= vehicleZDistance;
-    yield ['fordward', vehicleZDistance];
-
-    const vehicleXDistance = data.x - vehiclePosition.x;
-    vehiclePosition.x += vehicleXDistance;
-    yield ['right', vehicleXDistance];
-
-    yield ['shoulderDown', Math.PI / 2];
-    yield ['shoulderUp', Math.PI / 2];
-  }
-}
-
 function* moveObjects() {
   const rotationStep = Math.PI / 180;
   const partSettings = {
@@ -216,7 +174,12 @@ function* moveObjects() {
     },
   };
 
-  for (let [movement, delta] of generateMovements()) {
+  for (let [movement, delta] of moveCommands(
+    dominoes,
+    vehicle.position,
+    vehicleWidth,
+    destination
+  )) {
     if (movement === 'fordward') {
       if (cameraFollowVehicle) {
         camera.lookAt(vehicle.position);
@@ -230,7 +193,6 @@ function* moveObjects() {
       //since delta is not an integer the for loop can get a little farder.
       vehicle.position.z = initialZPosition - delta;
       yield;
-
     } else if (movement === 'right') {
       const initialPosition = vehicle.position.x;
       for (let i = 0; i <= delta; ++i) {
@@ -247,7 +209,6 @@ function* moveObjects() {
       //since delta is not an integer the for loop can get a little farder.
       vehicle.position.x = initialPosition + delta;
       yield;
-
     } else {
       const settings = partSettings[movement];
       for (let i = 0; i <= delta; i += rotationStep) {

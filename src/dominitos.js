@@ -222,10 +222,15 @@ function* moveObjects() {
         camera.lookAt(vehicle.position);
       }
 
+      const initialZPosition = vehicle.position.z;
       for (let i = 0; i <= delta; ++i) {
         vehicle.position.z -= 1;
         yield;
       }
+      //since delta is not an integer the for loop can get a little farder.
+      vehicle.position.z = initialZPosition - delta;
+      yield;
+
     } else if (movement === 'right') {
       const initialPosition = vehicle.position.x;
       for (let i = 0; i <= delta; ++i) {

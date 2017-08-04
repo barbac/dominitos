@@ -1,3 +1,4 @@
+import './style.css';
 import page from 'page';
 
 import dominitos from './dominitos.js';

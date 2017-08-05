@@ -52,9 +52,6 @@ function makeArm(vehicleHeight) {
   elbowMesh.rotation.z = Math.PI / 2;
   elbow.add(elbowMesh);
 
-  //TODO: delete
-  elbow.rotation.x = Math.PI / -2;
-
   const forarm = new THREE.Mesh(
     new THREE.BoxGeometry(baseWidth, armHeight, baseWidth),
     new THREE.MeshBasicMaterial({ color: 0x41f314, wireframe: wireframeParts })

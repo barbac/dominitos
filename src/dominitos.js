@@ -61,7 +61,7 @@ const cameraPositions = {
   middleRight: [planeSize / 1.5, planeSize / 4, 0],
   inFrontOfVehicle: [vehicleStartPosition.x, vehicleHeight, vehicleWidth * -2],
 };
-let cameraPosition = cameraPositions.inFrontOfVehicle;
+let cameraPosition = cameraPositions.middleRight;
 let cameraFollowVehicle = false;
 if (cameraPosition === cameraPositions.inFrontOfVehicle) {
   cameraFollowVehicle = true;
@@ -162,22 +162,19 @@ function init() {
 }
 
 function* moveObjects() {
-  const rotationStep = Math.PI / 180;
-  const partSettings = {
-    shoulderDown: {
-      part: arm.shoulder,
-      step: -rotationStep,
-    },
-    shoulderUp: {
-      part: arm.shoulder,
-      step: rotationStep,
-    },
+  const degree = Math.PI / 180;
+  let rotationStep = degree;
+  const parts = {
+    shoulder: arm.shoulder,
+    elbow: arm.elbow,
+    wrist: arm.wrist,
   };
 
   for (let [movement, delta] of moveCommands(
     dominoes,
     vehicle.position,
     vehicleWidth,
+    vehicleHeight,
     destination
   )) {
     if (movement === 'fordward') {
@@ -210,9 +207,16 @@ function* moveObjects() {
       vehicle.position.x = initialPosition + delta;
       yield;
     } else {
-      const settings = partSettings[movement];
-      for (let i = 0; i <= delta; i += rotationStep) {
-        settings.part.rotation.x += settings.step;
+      //rotations
+      const part = parts[movement];
+      if (delta < 0) {
+        delta = Math.abs(delta);
+        rotationStep = -degree;
+      } else {
+        rotationStep = degree;
+      }
+      for (let i = 0; i <= delta; i += degree) {
+        part.rotation.x += rotationStep;
         yield;
       }
     }

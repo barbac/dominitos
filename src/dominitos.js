@@ -31,18 +31,37 @@ const dominoes = [
 
 const planeSize = 130;
 
-const vehicleHeight = 10;
-const vehicleWidth = 10;
+const robotDimensions = {
+  dominoHeight: 4.8,
+  dominoWidth: 2.4,
+  dominoThickness: 0.7,
+  //mass 8.35g
+
+  vehicleHeight: 10,
+  vehicleWidth: 10,
+
+  baseHeight: 10.8,
+  armHeight: 13,
+  forarmHeight: 14.8,
+  //base + gripper = 15.8
+  gripperBaseHeight: 5.8,
+  gripperHeight: 10,
+  gripperThickness: 2,
+};
+
+const {
+  vehicleHeight,
+  vehicleWidth,
+  dominoHeight,
+  dominoWidth,
+  dominoThickness,
+} = robotDimensions;
+
 const vehicleStartPosition = new THREE.Vector3(
   -planeSize / 2 + 10,
   vehicleHeight / 2,
   planeSize / 2 - 10
 );
-
-const dominoHeight = 4.8;
-const dominoWidth = 2.4;
-const dominoThickness = 0.7;
-//mass 8.35g
 
 const dominoDispenserLocation = new THREE.Vector3(
   vehicleWidth / 2 + dominoHeight / 2,
@@ -123,7 +142,7 @@ function init() {
 
   //arm
 
-  arm = makeArm(vehicleHeight);
+  arm = makeArm(robotDimensions);
   vehicle.add(arm.base);
 
   //dominoes

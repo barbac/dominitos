@@ -47,6 +47,8 @@ const robotDimensions = {
   gripperBaseHeight: 5.8,
   gripperHeight: 10,
   gripperThickness: 2,
+
+  vehicleDominoGap: 20,
 };
 
 const {
@@ -192,9 +194,8 @@ function* moveObjects() {
   for (let [movement, delta] of moveCommands(
     dominoes,
     vehicle.position,
-    vehicleWidth,
-    vehicleHeight,
-    destination
+    destination,
+    robotDimensions
   )) {
     if (movement === 'fordward') {
       if (cameraFollowVehicle) {

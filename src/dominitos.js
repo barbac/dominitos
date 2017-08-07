@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import utils from './utils.js';
 import makeArm from './arm.js';
 import moveCommands from './moveCommands.js';
 
@@ -7,24 +8,28 @@ const dominoes = [
     x: 10,
     y: 0,
     z: 0,
+    rotation: 90,
     color: 'blue',
   },
   {
     x: 20,
     y: 0,
     z: 0,
+    rotation: 90,
     color: 'red',
   },
   {
     x: 30,
     y: 0,
     z: 0,
+    rotation: 180,
     color: 'yellow',
   },
   {
     x: 50,
     y: 0,
     z: 0,
+    rotation: 90,
     color: 'blue',
   },
 ];
@@ -74,7 +79,6 @@ const dominoDispenserLocation = new THREE.Vector3(
 let scene, camera, renderer;
 let vehicle, arm;
 let destination;
-let dominoMeshes;
 let processFrame;
 
 const cameraPositions = {
@@ -166,15 +170,14 @@ function init() {
     red: new THREE.MeshBasicMaterial({ color: 0xb22222 }),
   };
 
-  let domino;
-  dominoMeshes = dominoes.map(dominoData => {
-    domino = new THREE.Mesh(dominoGeometry, materials[dominoData.color]);
+  dominoes.forEach(dominoData => {
+    const domino = new THREE.Mesh(dominoGeometry, materials[dominoData.color]);
+    domino.rotation.y = utils.radians(dominoData.rotation);
     domino.position.x = dominoData.x;
     domino.position.y = dominoHeight / 2;
     domino.position.z = dominoData.z;
-    return domino;
+    scene.add(domino);
   });
-  scene.add(...dominoMeshes);
 
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);

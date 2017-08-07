@@ -85,17 +85,33 @@ function* moveCommands(
     go back ready position
     */
 
+  const baseRotation = -PI / 2;
+  const dominoDispenserY = robotDimensions.vehicleHeight;
+  const [grabAngle1, grabAngle2, grabAngle3] = shoulderElbowWristAngles(
+    robotDimensions,
+    robotDimensions.vehicleWidth,
+    dominoDispenserY
+  );
+  const targetReleaseDistance =
+    robotDimensions.vehicleDominoGap + robotDimensions.vehicleWidth / 2;
+  const [
+    releaseAngle1,
+    releaseAngle2,
+    releaseAngle3,
+  ] = shoulderElbowWristAngles(
+    robotDimensions,
+    targetReleaseDistance,
+    0 //ground lvl
+  );
+
   vehiclePosition = vehiclePosition.clone();
 
   for (let data of dominoes) {
-    destination.position.set(data.x, data.y, data.z);
-    const targetReleaseDistance =
-      robotDimensions.vehicleWidth / 2 +
-      data.z +
-      robotDimensions.vehicleDominoGap;
-
     //move body
-    const vehicleZDistance = vehiclePosition.z - targetReleaseDistance;
+    destination.position.set(data.x, data.y, data.z);
+
+    const targetReleasePosition = data.z + targetReleaseDistance;
+    const vehicleZDistance = vehiclePosition.z - targetReleasePosition;
     vehiclePosition.z -= vehicleZDistance;
     yield ['fordward', vehicleZDistance];
 
@@ -104,46 +120,34 @@ function* moveCommands(
     yield ['right', vehicleXDistance];
 
     //grab
-    const dominoDispenserY = robotDimensions.vehicleHeight;
     destination.position.set(
       vehiclePosition.x + robotDimensions.vehicleWidth,
       dominoDispenserY,
       vehiclePosition.z
     );
 
-    const baseRotation = -PI / 2;
-    yield ['base', baseRotation];
-    let [angle1, angle2, angle3] = shoulderElbowWristAngles(
-      robotDimensions,
-      robotDimensions.vehicleWidth,
-      dominoDispenserY
-    );
     //go to grab position.
-    yield ['shoulder', angle1];
-    yield ['wrist', angle3];
-    yield ['elbow', angle2];
+    yield ['base', baseRotation];
+    yield ['shoulder', grabAngle1];
+    yield ['wrist', grabAngle3];
+    yield ['elbow', grabAngle2];
     //go back to ready position.
-    yield ['elbow', -angle2];
-    yield ['wrist', -angle3];
-    yield ['shoulder', -angle1];
+    yield ['elbow', -grabAngle2];
+    yield ['wrist', -grabAngle3];
+    yield ['shoulder', -grabAngle1];
     yield ['base', -baseRotation];
 
     //release
     destination.position.set(data.x, data.y, data.z);
 
-    [angle1, angle2, angle3] = shoulderElbowWristAngles(
-      robotDimensions,
-      targetReleaseDistance,
-      0 //ground lvl
-    );
     //go to destination.
-    yield ['elbow', angle2];
-    yield ['wrist', angle3];
-    yield ['shoulder', angle1];
+    yield ['elbow', releaseAngle2];
+    yield ['wrist', releaseAngle3];
+    yield ['shoulder', releaseAngle1];
     //go back to ready position.
-    yield ['shoulder', -angle1];
-    yield ['wrist', -angle3];
-    yield ['elbow', -angle2];
+    yield ['shoulder', -releaseAngle1];
+    yield ['wrist', -releaseAngle3];
+    yield ['elbow', -releaseAngle2];
   }
 }
 

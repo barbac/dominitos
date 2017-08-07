@@ -34,11 +34,17 @@ function init() {
   grid.rotation.x = PI / 2;
   scene.add(grid);
 
-  const length0 = 20.8; // y axis
+  let length0 = 20.8 - 10; // y axis
   const length1 = 13;
   const length2 = 14.8;
-  const length3 = 15.8;
-  const length4 = 25; // x axis
+  let length3 = 15.8;
+  const length4 = 10; // x axis
+
+  if (length3 > length0) {
+    const _length0 = length0;
+    length0 = length3;
+    length3 = _length0;
+  }
 
   const v0 = new THREE.Vector2(0, length0);
   // const v1 = new THREE.Vector2(length1, 0);

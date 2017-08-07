@@ -1,14 +1,33 @@
 const PI = Math.PI;
 
-function shoulderElbowWristAngles(robotDimensions, targetDistance) {
+function shoulderElbowWristAngles(
+  robotDimensions,
+  targetDistance,
+  verticalOffset = 0
+) {
+  let swapAngles = false;
+
   // y axis
-  const length0 = robotDimensions.baseHeight + robotDimensions.vehicleHeight;
-  const length1 = robotDimensions.armHeight;
-  const length2 = robotDimensions.forarmHeight;
-  const length3 =
+  let length0 =
+    robotDimensions.vehicleHeight + robotDimensions.baseHeight - verticalOffset;
+  let length1 = robotDimensions.armHeight;
+  let length2 = robotDimensions.forarmHeight;
+  let length3 =
     robotDimensions.gripperBaseHeight + robotDimensions.gripperHeight;
   // x axis
   const length4 = targetDistance;
+
+  //flip the pentagon horizontallu.
+  if (length3 > length0) {
+    swapAngles = true;
+
+    let tmp = length0;
+    length0 = length3;
+    length3 = tmp;
+    tmp = length1;
+    length1 = length2;
+    length2 = tmp;
+  }
 
   const l2 = length4;
   const l1 = length0 - length3;
@@ -32,7 +51,11 @@ function shoulderElbowWristAngles(robotDimensions, targetDistance) {
   const angle2 = iangleC - startingAngle;
   const angle3 = iangleD + iangleE + PI / 2 - startingAngle;
 
-  return [angle1, angle2, angle3];
+  if (swapAngles) {
+    return [angle3, angle2, angle1];
+  } else {
+    return [angle1, angle2, angle3];
+  }
 }
 
 function* moveCommands(
@@ -66,13 +89,13 @@ function* moveCommands(
 
   for (let data of dominoes) {
     destination.position.set(data.x, data.y, data.z);
-    const targetDistance =
+    const targetReleaseDistance =
       robotDimensions.vehicleWidth / 2 +
       data.z +
       robotDimensions.vehicleDominoGap;
 
     //move body
-    const vehicleZDistance = vehiclePosition.z - targetDistance;
+    const vehicleZDistance = vehiclePosition.z - targetReleaseDistance;
     vehiclePosition.z -= vehicleZDistance;
     yield ['fordward', vehicleZDistance];
 
@@ -80,9 +103,38 @@ function* moveCommands(
     vehiclePosition.x += vehicleXDistance;
     yield ['right', vehicleXDistance];
 
-    const [angle1, angle2, angle3] = shoulderElbowWristAngles(
+    //grab
+    const dominoDispenserY = robotDimensions.vehicleHeight;
+    destination.position.set(
+      vehiclePosition.x + robotDimensions.vehicleWidth,
+      dominoDispenserY,
+      vehiclePosition.z
+    );
+
+    const baseRotation = -PI / 2;
+    yield ['base', baseRotation];
+    let [angle1, angle2, angle3] = shoulderElbowWristAngles(
       robotDimensions,
-      targetDistance
+      robotDimensions.vehicleWidth,
+      dominoDispenserY
+    );
+    //go to grab position.
+    yield ['shoulder', angle1];
+    yield ['wrist', angle3];
+    yield ['elbow', angle2];
+    //go back to ready position.
+    yield ['elbow', -angle2];
+    yield ['wrist', -angle3];
+    yield ['shoulder', -angle1];
+    yield ['base', -baseRotation];
+
+    //release
+    destination.position.set(data.x, data.y, data.z);
+
+    [angle1, angle2, angle3] = shoulderElbowWristAngles(
+      robotDimensions,
+      targetReleaseDistance,
+      0 //ground lvl
     );
     //go to destination.
     yield ['elbow', angle2];

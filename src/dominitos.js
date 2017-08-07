@@ -186,6 +186,7 @@ function* moveObjects() {
   const degree = Math.PI / 180;
   let rotationStep = degree;
   const parts = {
+    base: arm.base,
     shoulder: arm.shoulder,
     elbow: arm.elbow,
     wrist: arm.wrist,
@@ -236,7 +237,11 @@ function* moveObjects() {
         rotationStep = degree;
       }
       for (let i = 0; i <= delta; i += degree) {
-        part.rotation.x += rotationStep;
+        if (movement == 'base') {
+          part.rotation.y += rotationStep;
+        } else {
+          part.rotation.x += rotationStep;
+        }
         yield;
       }
     }

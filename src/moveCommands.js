@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const PI = Math.PI;
 
 function shoulderElbowWristAngles(
@@ -87,22 +89,33 @@ function* moveCommands(
 
   const baseRotation = -PI / 2;
   const dominoDispenserY = robotDimensions.vehicleHeight;
-  const [grabAngle1, grabAngle2, grabAngle3] = shoulderElbowWristAngles(
+  let [grabAngle1, grabAngle2, grabAngle3] = shoulderElbowWristAngles(
     robotDimensions,
     robotDimensions.vehicleWidth,
     dominoDispenserY
   );
   const targetReleaseDistance =
     robotDimensions.vehicleDominoGap + robotDimensions.vehicleWidth / 2;
-  const [
-    releaseAngle1,
-    releaseAngle2,
-    releaseAngle3,
-  ] = shoulderElbowWristAngles(
+  let [releaseAngle1, releaseAngle2, releaseAngle3] = shoulderElbowWristAngles(
     robotDimensions,
     targetReleaseDistance,
     0 //ground lvl
   );
+
+  //go to ready position.
+  const restAngle1 = _.mean([grabAngle1, releaseAngle1]);
+  const restAngle2 = _.mean([grabAngle2, releaseAngle2]);
+  const restAngle3 = _.mean([grabAngle3, releaseAngle3]);
+  yield ['shoulder', restAngle1];
+  yield ['wrist', restAngle3];
+  yield ['elbow', restAngle2];
+
+  grabAngle1 -= restAngle1;
+  grabAngle2 -= restAngle2;
+  grabAngle3 -= restAngle3;
+  releaseAngle1 -= restAngle1;
+  releaseAngle2 -= restAngle2;
+  releaseAngle3 -= restAngle3;
 
   vehiclePosition = vehiclePosition.clone();
 

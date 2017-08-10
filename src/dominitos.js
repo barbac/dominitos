@@ -22,7 +22,7 @@ const dominoes = [
     x: 30,
     y: 0,
     z: 0,
-    rotation: 180,
+    rotation: 0,
     color: 'yellow',
   },
   {
@@ -193,6 +193,7 @@ function* moveObjects() {
     shoulder: arm.shoulder,
     elbow: arm.elbow,
     wrist: arm.wrist,
+    gripper: arm.gripper,
   };
 
   for (let [movement, delta] of moveCommands(
@@ -233,6 +234,10 @@ function* moveObjects() {
     } else {
       //rotations
       const part = parts[movement];
+      if (!part) {
+        throw new Error(`Movement: "${movement}" not supported`);
+      }
+
       if (delta < 0) {
         delta = Math.abs(delta);
         rotationStep = -degree;
@@ -240,7 +245,7 @@ function* moveObjects() {
         rotationStep = degree;
       }
       for (let i = 0; i <= delta; i += degree) {
-        if (movement == 'base') {
+        if (movement == 'base' || movement == 'gripper') {
           part.rotation.y += rotationStep;
         } else {
           part.rotation.x += rotationStep;

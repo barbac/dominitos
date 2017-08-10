@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import utils from './utils.js';
 
 const PI = Math.PI;
 
@@ -101,6 +102,7 @@ function* moveCommands(
     targetReleaseDistance,
     0 //ground lvl
   );
+  const baseGripperAngle = PI / -2;
 
   //go to ready position.
   const restAngle1 = _.mean([grabAngle1, releaseAngle1]);
@@ -155,11 +157,14 @@ function* moveCommands(
 
     //go to destination.
     yield ['elbow', releaseAngle2];
+    const gripperReleaseAngle = utils.radians(data.rotation) + baseGripperAngle;
+    yield ['gripper', gripperReleaseAngle];
     yield ['wrist', releaseAngle3];
     yield ['shoulder', releaseAngle1];
     //go back to ready position.
     yield ['shoulder', -releaseAngle1];
     yield ['wrist', -releaseAngle3];
+    yield ['gripper', -gripperReleaseAngle];
     yield ['elbow', -releaseAngle2];
   }
 }

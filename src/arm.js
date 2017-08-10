@@ -84,6 +84,15 @@ function makeArm(robotDimensions) {
   gripper.position.y = gripperBaseHeight / 2 + gripperHeight / 2;
   gripperBase.add(gripper);
 
+  const gripperMarcSize = gripperThickness / 3;
+  const gripperMarc = new THREE.Mesh(
+    new THREE.BoxGeometry(gripperMarcSize, gripperMarcSize, gripperMarcSize),
+    new THREE.MeshBasicMaterial({ color: 'orange' })
+  );
+  gripperMarc.position.y = gripperHeight / -2 + gripperMarcSize / 2;
+  gripperMarc.position.z = gripperThickness - gripperMarcSize / 2;
+  gripper.add(gripperMarc);
+
   return {
     base,
     shoulder,

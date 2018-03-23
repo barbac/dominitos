@@ -10,6 +10,10 @@ module.exports = {
   },
   devServer: {
     port: 9000,
+    allowedHosts: ['.'],
+    compress: true,
+    host: '0.0.0.0',
+    disableHostCheck: true,
     contentBase: distDir,
   },
   devtool: 'cheap-module-eval-source-map',

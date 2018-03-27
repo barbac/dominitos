@@ -72,9 +72,14 @@ function init() {
   document.body.appendChild(renderer.domElement);
 }
 
+function animate() {
+  window.requestAnimationFrame(animate);
+  renderer.render(scene, camera);
+}
+
 function worldView() {
   init();
-  renderer.render(scene, camera);
+  animate();
 }
 
 export default worldView;

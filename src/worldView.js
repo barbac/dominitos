@@ -1,8 +1,21 @@
 import * as THREE from 'three';
 
-let scene, camera, renderer;
+let scene, camera, cameraContainer, renderer;
 
 const planeSize = 130;
+const halfPlaneSize = planeSize / 2;
+const rotationFactor = 0.01;
+
+function firstPersonCamera(event) {
+  camera.rotation.x -= event.movementY * rotationFactor;
+  camera.rotation.y -= event.movementX * rotationFactor;
+}
+
+function inputControls(domElement) {
+  //this order makes it look like a fps game.
+  camera.rotation.order = 'YXZ';
+  domElement.addEventListener('mousemove', firstPersonCamera);
+}
 
 function init() {
   scene = new THREE.Scene();
@@ -14,9 +27,10 @@ function init() {
     10000
   );
 
-  const cameraPosition = [planeSize / 2, planeSize / 4, planeSize / 2];
-  camera.position.fromArray(cameraPosition);
-  camera.lookAt(new THREE.Vector3());
+  //Use this to translate the camara and avoid messing with the rotation.
+  cameraContainer = new THREE.Object3D();
+  cameraContainer.add(camera);
+  scene.add(cameraContainer);
 
   //helper grids
 
@@ -67,7 +81,8 @@ function init() {
 
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
-  console.log(renderer.domElement);
+
+  inputControls(renderer.domElement);
 
   document.body.appendChild(renderer.domElement);
 }

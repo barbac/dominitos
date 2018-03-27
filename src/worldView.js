@@ -18,9 +18,52 @@ function init() {
   camera.position.fromArray(cameraPosition);
   camera.lookAt(new THREE.Vector3());
 
-  //plane
+  //helper grids
+
   const grid = new THREE.GridHelper(planeSize, planeSize);
   scene.add(grid);
+
+  const middleLineColor = 'yellow';
+
+  const gridLeftX = new THREE.GridHelper(
+    planeSize,
+    planeSize,
+    middleLineColor,
+    'red'
+  );
+  gridLeftX.rotateZ(Math.PI / 2);
+  gridLeftX.position.x = -halfPlaneSize;
+  scene.add(gridLeftX);
+
+  const gridRightX = new THREE.GridHelper(
+    planeSize,
+    planeSize,
+    middleLineColor,
+    'orange'
+  );
+  gridRightX.rotateZ(Math.PI / 2);
+  gridRightX.position.x = halfPlaneSize;
+  scene.add(gridRightX);
+
+  const gridFarZ = new THREE.GridHelper(
+    planeSize,
+    planeSize,
+    middleLineColor,
+    'green'
+  );
+  gridFarZ.rotateX(Math.PI / 2);
+  gridFarZ.position.z = -halfPlaneSize;
+  scene.add(gridFarZ);
+
+  const gridCloseZ = new THREE.GridHelper(
+    planeSize,
+    planeSize,
+    middleLineColor,
+    'blue'
+  );
+  gridCloseZ.rotateX(Math.PI / 2);
+  gridCloseZ.position.z = halfPlaneSize;
+  scene.add(gridCloseZ);
 
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);

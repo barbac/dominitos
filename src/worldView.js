@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
-let scene, camera, cameraContainer, renderer;
+let scene, renderer;
+let firstPersonCamera, firstPersonCameraContainer;
 
 const planeSize = 130;
 const halfPlaneSize = planeSize / 2;
@@ -8,8 +9,8 @@ const rotationFactor = 0.01;
 const cameraPanningDelta = 10;
 
 function firstPersonCameraMovement(event) {
-  camera.rotation.x -= event.movementY * rotationFactor;
-  camera.rotation.y -= event.movementX * rotationFactor;
+  firstPersonCamera.rotation.x -= event.movementY * rotationFactor;
+  firstPersonCamera.rotation.y -= event.movementX * rotationFactor;
 }
 
 function wasdCameraMovement(event) {
@@ -29,15 +30,20 @@ function wasdCameraMovement(event) {
       break;
     default:
   }
-  //Use camera.rotation.x for up and down movements if needed later.
-  const euler = new THREE.Euler(0, camera.rotation.y, 0, camera.rotation.order);
+  //Use firstPersonCamera.rotation.x for up and down movements if needed later.
+  const euler = new THREE.Euler(
+    0,
+    firstPersonCamera.rotation.y,
+    0,
+    firstPersonCamera.rotation.order
+  );
   vector.applyEuler(euler);
-  cameraContainer.position.add(vector);
+  firstPersonCameraContainer.position.add(vector);
 }
 
 function inputControls(domElement) {
   //this order makes it look like a fps game.
-  camera.rotation.order = 'YXZ';
+  firstPersonCamera.rotation.order = 'YXZ';
   domElement.addEventListener('mousemove', firstPersonCameraMovement);
 
   //allow keyword focus
@@ -48,7 +54,7 @@ function inputControls(domElement) {
 function init() {
   scene = new THREE.Scene();
 
-  camera = new THREE.PerspectiveCamera(
+  firstPersonCamera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
     1,
@@ -56,10 +62,10 @@ function init() {
   );
 
   //Use this to translate the camara and avoid messing with the rotation.
-  cameraContainer = new THREE.Object3D();
-  cameraContainer.position.y = 10;
-  cameraContainer.add(camera);
-  scene.add(cameraContainer);
+  firstPersonCameraContainer = new THREE.Object3D();
+  firstPersonCameraContainer.position.y = 10;
+  firstPersonCameraContainer.add(firstPersonCamera);
+  scene.add(firstPersonCameraContainer);
 
   //helper grids
 
@@ -118,6 +124,7 @@ function init() {
 
 function animate() {
   window.requestAnimationFrame(animate);
+  const camera = firstPersonCamera;
   renderer.render(scene, camera);
 }
 

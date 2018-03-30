@@ -1,9 +1,9 @@
 import worldView from './worldView.js';
+import settings from './settings.js';
 import models from './models.js';
 
 function modelLoader() {
-  const searchParams = new URL(document.location).searchParams;
-  const modelName = searchParams.get('model');
+  const modelName = settings('model');
   console.log(modelName);
 
   const model = models[modelName];

@@ -7,7 +7,7 @@ const halfPlaneSize = planeSize / 2;
 const rotationFactor = 0.01;
 const cameraPanningDelta = 10;
 
-function firstPersonCamera(event) {
+function firstPersonCameraMovement(event) {
   camera.rotation.x -= event.movementY * rotationFactor;
   camera.rotation.y -= event.movementX * rotationFactor;
 }
@@ -38,7 +38,7 @@ function wasdCameraMovement(event) {
 function inputControls(domElement) {
   //this order makes it look like a fps game.
   camera.rotation.order = 'YXZ';
-  domElement.addEventListener('mousemove', firstPersonCamera);
+  domElement.addEventListener('mousemove', firstPersonCameraMovement);
 
   //allow keyword focus
   domElement.tabIndex = 1;

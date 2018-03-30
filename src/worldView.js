@@ -121,8 +121,11 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-function worldView() {
+function worldView(...objects) {
   init();
+  if (objects.length) {
+    scene.add(...objects);
+  }
   animate();
 }
 

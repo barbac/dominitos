@@ -41,7 +41,7 @@ function wasdCameraMovement(event) {
   firstPersonCameraContainer.position.add(vector);
 }
 
-function inputControls(domElement) {
+function firstPersonInputControls(domElement) {
   //this order makes it look like a fps game.
   firstPersonCamera.rotation.order = 'YXZ';
   domElement.addEventListener('mousemove', firstPersonCameraMovement);
@@ -117,7 +117,7 @@ function init() {
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
 
-  inputControls(renderer.domElement);
+  firstPersonInputControls(renderer.domElement);
 
   document.body.appendChild(renderer.domElement);
 }

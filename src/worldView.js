@@ -1,7 +1,9 @@
 import * as THREE from 'three';
+import settings from './settings.js';
 
-let scene, renderer;
+let scene, camera, renderer;
 let firstPersonCamera, firstPersonCameraContainer;
+const cameras = {};
 
 const planeSize = 130;
 const halfPlaneSize = planeSize / 2;
@@ -60,6 +62,7 @@ function init() {
     1,
     10000
   );
+  cameras.firstPersonCamera = firstPersonCamera;
 
   //Use this to translate the camara and avoid messing with the rotation.
   firstPersonCameraContainer = new THREE.Object3D();
@@ -117,22 +120,36 @@ function init() {
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
 
-  firstPersonInputControls(renderer.domElement);
-
   document.body.appendChild(renderer.domElement);
 }
 
 function animate() {
   window.requestAnimationFrame(animate);
-  const camera = firstPersonCamera;
   renderer.render(scene, camera);
+}
+
+function setCamera(cameraName) {
+  cameraName = cameraName || 'firstPersonCamera';
+  const _camera = cameras[cameraName];
+  if (!_camera) {
+    throw `no camera "${cameraName}"`;
+  }
+  camera = _camera;
+
+  if (camera == firstPersonCamera) {
+    firstPersonInputControls(renderer.domElement);
+  }
 }
 
 function worldView(...objects) {
   init();
+
   if (objects.length) {
     scene.add(...objects);
   }
+
+  setCamera(settings('camera'));
+
   animate();
 }
 

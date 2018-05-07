@@ -22,12 +22,17 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: "eslint-loader",
+        loader: 'eslint-loader',
       },
       {
         test: /\.css$/,
-        loader: "style-loader!css-loader",
-      }
+        loader: 'style-loader!css-loader',
+      },
+      {
+        test: /\.jsx$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
     ],
   },
 };

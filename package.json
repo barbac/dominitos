@@ -4,17 +4,17 @@
   "main": "index.js",
   "author": "barbac <jjbarbac+git@gmail.com>",
   "dependencies": {
-    "lodash": "^4.17.5",
-    "page": "^1.8.4",
-    "three": "^0.91.0"
+    "lodash": "^4.17.10",
+    "page": "^1.8.6",
+    "three": "^0.92.0"
   },
   "devDependencies": {
-    "css-loader": "^0.28.10",
-    "eslint": "^4.18.2",
+    "css-loader": "^0.28.11",
+    "eslint": "^4.19.1",
     "eslint-loader": "^2.0.0",
-    "style-loader": "^0.20.3",
-    "webpack": "^4.1.1",
-    "webpack-cli": "^2.0.12",
-    "webpack-dev-server": "^3.1.1"
+    "style-loader": "^0.21.0",
+    "webpack": "^4.8.1",
+    "webpack-cli": "^2.1.3",
+    "webpack-dev-server": "^3.1.4"
   }
 }

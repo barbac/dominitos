@@ -123,6 +123,34 @@ function init() {
   document.body.appendChild(renderer.domElement);
 }
 
+function loadState() {
+  const state = JSON.parse(window.localStorage.getItem('state'));
+
+  firstPersonCameraContainer.position.x = state.firstPersonCamera.position.x;
+  firstPersonCameraContainer.position.y = state.firstPersonCamera.position.y;
+  firstPersonCameraContainer.position.z = state.firstPersonCamera.position.z;
+  firstPersonCamera.rotation.x = state.firstPersonCamera.rotation.x;
+  firstPersonCamera.rotation.y = state.firstPersonCamera.rotation.y;
+}
+
+function saveState() {
+  const state = {
+    firstPersonCamera: {
+      position: {
+        x: firstPersonCameraContainer.position.x,
+        y: firstPersonCameraContainer.position.y,
+        z: firstPersonCameraContainer.position.z,
+      },
+      rotation: {
+        x: firstPersonCamera.rotation.x,
+        y: firstPersonCamera.rotation.y,
+      },
+    },
+  };
+
+  window.localStorage.setItem('state', JSON.stringify(state));
+}
+
 function animate() {
   window.requestAnimationFrame(animate);
   renderer.render(scene, camera);
@@ -149,6 +177,9 @@ function worldView(...objects) {
   }
 
   setCamera(settings('camera'));
+
+  window.addEventListener('beforeunload', saveState);
+  loadState();
 
   animate();
 }

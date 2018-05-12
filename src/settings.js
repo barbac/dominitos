@@ -1,6 +1,7 @@
 const settings = {
   model: null,
   camera: 'firstPersonCamera',
+  lockCamera: true,
   init: init,
 };
 

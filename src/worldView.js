@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import settings from './settings.js';
+import initUi from './ui/initUi.jsx';
 
 let scene, camera, renderer;
 let firstPersonCamera, firstPersonCameraContainer;
@@ -11,11 +12,18 @@ const rotationFactor = 0.01;
 const cameraPanningDelta = 10;
 
 function firstPersonCameraRotation(event) {
+  if (settings.lockCamera) {
+    return;
+  }
+
   firstPersonCamera.rotation.x -= event.movementY * rotationFactor;
   firstPersonCamera.rotation.y -= event.movementX * rotationFactor;
 }
 
 function wasdCameraMovement(event) {
+  if (settings.lockCamera) {
+    return;
+  }
   const vector = new THREE.Vector3(0, 0, 0);
   switch (event.key) {
     case 'w':
@@ -170,6 +178,7 @@ function setCamera(cameraName) {
 }
 
 function worldView(...objects) {
+  initUi(objects);
   init();
 
   if (objects.length) {

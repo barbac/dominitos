@@ -1,7 +1,21 @@
 /* to allow fullscreen without scrollbars */
 body {
-    margin: 0;
+  margin: 0;
+  font-family: sans-serif;
 }
 canvas {
-    display: block;
+  display: block;
 }
+
+/* ui */
+#ui {
+  position: relative;
+}
+
+#ui > div > div {
+  background-color: rgba(75, 0, 130, 0.5);
+  color: PowderBlue;
+  margin: 2px;
+  padding: 4px;
+}
+/* ui */

@@ -3,7 +3,7 @@ import settings from './settings.js';
 import models from './models.js';
 
 function modelLoader() {
-  const modelName = settings('model');
+  const modelName = settings.model;
   console.log(modelName);
 
   const model = models[modelName];

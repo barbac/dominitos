@@ -176,7 +176,7 @@ function worldView(...objects) {
     scene.add(...objects);
   }
 
-  setCamera(settings('camera'));
+  setCamera(settings.camera);
 
   window.addEventListener('beforeunload', saveState);
   loadState();

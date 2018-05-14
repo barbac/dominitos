@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Toolbar from './Toolbar.jsx';
+import Controls from './Controls.jsx';
 
 function Ui({ object }) {
   return (
     <React.Fragment>
       <Toolbar />
+      <Controls object={object} />
     </React.Fragment>
   );
 }

@@ -46,8 +46,29 @@ function makeBase() {
   return mesh;
 }
 
+const controls = [
+  {
+    name: 'claw',
+    type: 'range',
+    min: 0,
+    max: 180,
+  },
+];
+
+const values = {
+  _claw: 0,
+  get claw() {
+    return this._claw;
+  },
+  set claw(degrees) {
+    this._claw = degrees;
+  },
+};
+
 function makeClaw() {
   const claw = new THREE.Object3D();
+  claw.controls = controls;
+  claw.values = values;
 
   const talonsDistrance = 2.5;
 

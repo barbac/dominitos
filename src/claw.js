@@ -1,6 +1,8 @@
 import * as THREE from 'three';
+import utils from './utils.js';
 
 const PI = Math.PI;
+const claw = new THREE.Object3D();
 
 function makeTalonMesh() {
   const shape = new THREE.Shape();
@@ -55,6 +57,8 @@ const controls = [
   },
 ];
 
+let talon1, talon2, talon3, talon4;
+
 const values = {
   _claw: 0,
   get claw() {
@@ -62,34 +66,40 @@ const values = {
   },
   set claw(degrees) {
     this._claw = degrees;
+
+    const rotation = PI / 2 - utils.radians(degrees / 2);
+    talon1.rotation.z = rotation;
+    talon2.rotation.z = rotation;
+    talon3.rotation.z = rotation;
+    talon4.rotation.z = rotation;
   },
 };
 
 function makeClaw() {
-  const claw = new THREE.Object3D();
   claw.controls = controls;
   claw.values = values;
 
   const talonsDistrance = 2.5;
 
-  const talon1 = makeTalonMesh();
+  talon1 = makeTalonMesh();
   talon1.position.x = -talonsDistrance;
   talon1.position.z -= 5;
 
-  const talon2 = makeTalonMesh();
+  talon2 = makeTalonMesh();
   talon2.rotation.y = PI;
   talon2.position.x = talonsDistrance;
   talon2.position.z -= 5;
 
-  const talon3 = makeTalonMesh();
+  talon3 = makeTalonMesh();
   talon3.position.x = -talonsDistrance;
   talon3.position.z += 5;
 
-  const talon4 = makeTalonMesh();
+  talon4 = makeTalonMesh();
   talon4.rotation.y = PI;
   talon4.position.x = talonsDistrance;
   talon4.position.z += 5;
 
+  claw.values.claw = 0; //set the initial angles.
   const base = makeBase();
 
   claw.add(base, talon1, talon2, talon3, talon4);

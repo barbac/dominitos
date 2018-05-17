@@ -65,7 +65,8 @@ function* moveCommands(
   dominoes,
   vehiclePosition,
   destination,
-  robotDimensions
+  robotDimensions,
+  vehicleDominoGap
 ) {
   /*
     BODY:
@@ -96,7 +97,7 @@ function* moveCommands(
     dominoDispenserY
   );
   const targetReleaseDistance =
-    robotDimensions.vehicleDominoGap + robotDimensions.vehicleWidth / 2;
+    vehicleDominoGap + robotDimensions.vehicleWidth / 2;
   let [releaseAngle1, releaseAngle2, releaseAngle3] = shoulderElbowWristAngles(
     robotDimensions,
     targetReleaseDistance,

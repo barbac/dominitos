@@ -2,7 +2,20 @@ import * as THREE from 'three';
 
 const wireframeParts = true;
 
-function makeArm(robotDimensions) {
+const armDimensions = {
+  vehicleHeight: 10,
+  vehicleWidth: 10,
+
+  baseHeight: 10.8,
+  armHeight: 13,
+  forarmHeight: 14.8,
+  //base + gripper = 15.8
+  gripperBaseHeight: 5.8,
+  gripperHeight: 10,
+  gripperThickness: 2,
+};
+
+function makeArm() {
   const {
     vehicleHeight,
 
@@ -13,7 +26,7 @@ function makeArm(robotDimensions) {
     gripperBaseHeight,
     gripperHeight,
     gripperThickness,
-  } = robotDimensions;
+  } = armDimensions;
 
   const baseWidth = baseHeight / 2;
 
@@ -114,3 +127,4 @@ function makeArm(robotDimensions) {
 }
 
 export default makeArm;
+export { armDimensions, makeArm };

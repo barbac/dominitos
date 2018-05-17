@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import utils from './utils.js';
-import makeArm from './arm.js';
+import { armDimensions, makeArm } from './arm.js';
 import moveCommands from './moveCommands.js';
 
 const dominoes = [
@@ -36,33 +36,14 @@ const dominoes = [
 
 const planeSize = 130;
 
-const robotDimensions = {
-  dominoHeight: 4.8,
-  dominoWidth: 2.4,
-  dominoThickness: 0.7,
-  //mass 8.35g
+const dominoHeight = 4.8;
+const dominoWidth = 2.4;
+const dominoThickness = 0.7;
+//mass 8.35g
 
-  vehicleHeight: 10,
-  vehicleWidth: 10,
+const vehicleDominoGap = 20;
 
-  baseHeight: 10.8,
-  armHeight: 13,
-  forarmHeight: 14.8,
-  //base + gripper = 15.8
-  gripperBaseHeight: 5.8,
-  gripperHeight: 10,
-  gripperThickness: 2,
-
-  vehicleDominoGap: 20,
-};
-
-const {
-  vehicleHeight,
-  vehicleWidth,
-  dominoHeight,
-  dominoWidth,
-  dominoThickness,
-} = robotDimensions;
+const { vehicleHeight, vehicleWidth } = armDimensions;
 
 const vehicleStartPosition = new THREE.Vector3(
   -planeSize / 2 + 10,
@@ -148,7 +129,7 @@ function init() {
 
   //arm
 
-  arm = makeArm(robotDimensions);
+  arm = makeArm();
   vehicle.add(arm.model);
 
   //dominoes
@@ -193,7 +174,8 @@ function* moveObjects() {
     dominoes,
     vehicle.position,
     destination,
-    robotDimensions
+    armDimensions,
+    vehicleDominoGap
   )) {
     if (movement === 'fordward') {
       if (cameraFollowVehicle) {

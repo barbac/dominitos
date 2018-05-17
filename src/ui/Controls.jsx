@@ -38,6 +38,11 @@ class Control extends React.Component {
 }
 
 function Controls({ object }) {
+  if (!object.controls) {
+    //simple 3d model
+    return null;
+  }
+
   const _controls = object.controls.map((settings, i) => {
     return <Control key={i} settings={settings} object={object} />;
   });

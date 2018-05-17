@@ -93,12 +93,23 @@ function makeArm(robotDimensions) {
   gripperMarc.position.z = gripperThickness - gripperMarcSize / 2;
   gripper.add(gripperMarc);
 
+  function setterAndGetter(values, name, object, property) {
+    Object.defineProperty(values, name, {
+      get: () => object[property],
+      set: value => (object[property] = value),
+    });
+  }
+
+  const values = {};
+  setterAndGetter(values, 'base', base.rotation, 'y');
+  setterAndGetter(values, 'shoulder', shoulder.rotation, 'x');
+  setterAndGetter(values, 'elbow', elbow.rotation, 'x');
+  setterAndGetter(values, 'wrist', wrist.rotation, 'x');
+  setterAndGetter(values, 'gripper', gripper.rotation, 'y');
+
   return {
-    base,
-    shoulder,
-    elbow,
-    wrist,
-    gripper,
+    values,
+    model: base,
   };
 }
 

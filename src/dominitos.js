@@ -149,7 +149,7 @@ function init() {
   //arm
 
   arm = makeArm(robotDimensions);
-  vehicle.add(arm.base);
+  vehicle.add(arm.model);
 
   //dominoes
 
@@ -188,13 +188,6 @@ function init() {
 function* moveObjects() {
   const degree = Math.PI / 180;
   let rotationStep = degree;
-  const parts = {
-    base: arm.base,
-    shoulder: arm.shoulder,
-    elbow: arm.elbow,
-    wrist: arm.wrist,
-    gripper: arm.gripper,
-  };
 
   for (let [movement, delta] of moveCommands(
     dominoes,
@@ -233,10 +226,6 @@ function* moveObjects() {
       yield;
     } else {
       //rotations
-      const part = parts[movement];
-      if (!part) {
-        throw new Error(`Movement: "${movement}" not supported`);
-      }
 
       if (delta < 0) {
         delta = Math.abs(delta);
@@ -245,11 +234,7 @@ function* moveObjects() {
         rotationStep = degree;
       }
       for (let i = 0; i <= delta; i += degree) {
-        if (movement == 'base' || movement == 'gripper') {
-          part.rotation.y += rotationStep;
-        } else {
-          part.rotation.x += rotationStep;
-        }
+        arm.values[movement] += rotationStep;
         yield;
       }
     }

@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import utils from './utils.js';
 
 const PI = Math.PI;
-const claw = new THREE.Object3D();
 
 function makeTalonMesh() {
   const shape = new THREE.Shape();
@@ -76,8 +75,11 @@ const values = {
 };
 
 function makeClaw() {
-  claw.controls = controls;
-  claw.values = values;
+  const claw = {
+    controls,
+    values,
+    model: new THREE.Object3D(),
+  };
 
   const talonsDistrance = 2.5;
 
@@ -102,7 +104,7 @@ function makeClaw() {
   claw.values.claw = 0; //set the initial angles.
   const base = makeBase();
 
-  claw.add(base, talon1, talon2, talon3, talon4);
+  claw.model.add(base, talon1, talon2, talon3, talon4);
 
   return claw;
 }

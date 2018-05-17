@@ -14,6 +14,10 @@ function Ui({ object }) {
 
 function initUi(objects) {
   const activeObject = objects[0];
+  if (!activeObject.controls) {
+    //simple 3d model
+    return;
+  }
   ReactDOM.render(<Ui object={activeObject} />, document.getElementById('ui'));
 }
 

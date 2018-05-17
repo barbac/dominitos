@@ -177,12 +177,13 @@ function setCamera(cameraName) {
   }
 }
 
-function worldView(...objects) {
-  initUi(objects);
+function worldView(...models) {
+  initUi(models);
   init();
 
-  if (objects.length) {
-    scene.add(...objects);
+  if (models.length) {
+    //The model could have controls or be a simple 3d model.
+    scene.add(...models.map(model => model.model || model));
   }
 
   setCamera(settings.camera);

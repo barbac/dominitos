@@ -89,7 +89,7 @@ function* moveCommands(
     go back ready position
     */
 
-  const baseRotation = -PI / 2;
+  const waistRotation = -PI / 2;
   const dominoDispenserY = robotDimensions.vehicleHeight;
   let [grabAngle1, grabAngle2, grabAngle3] = shoulderElbowWristAngles(
     robotDimensions,
@@ -110,7 +110,7 @@ function* moveCommands(
   const restAngle2 = _.mean([grabAngle2, releaseAngle2]);
   const restAngle3 = _.mean([grabAngle3, releaseAngle3]);
   yield ['shoulder', restAngle1];
-  yield ['wrist', restAngle3];
+  yield ['wrist pitch', restAngle3];
   yield ['elbow', restAngle2];
 
   grabAngle1 -= restAngle1;
@@ -143,15 +143,15 @@ function* moveCommands(
     );
 
     //go to grab position.
-    yield ['base', baseRotation];
+    yield ['waist', waistRotation];
     yield ['shoulder', grabAngle1];
-    yield ['wrist', grabAngle3];
+    yield ['wrist pitch', grabAngle3];
     yield ['elbow', grabAngle2];
     //go back to ready position.
     yield ['elbow', -grabAngle2];
-    yield ['wrist', -grabAngle3];
+    yield ['wrist pitch', -grabAngle3];
     yield ['shoulder', -grabAngle1];
-    yield ['base', -baseRotation];
+    yield ['waist', -waistRotation];
 
     //release
     destination.position.set(data.x, data.y, data.z);
@@ -159,13 +159,13 @@ function* moveCommands(
     //go to destination.
     yield ['elbow', releaseAngle2];
     const gripperReleaseAngle = utils.radians(data.rotation) + baseGripperAngle;
-    yield ['gripper', gripperReleaseAngle];
-    yield ['wrist', releaseAngle3];
+    yield ['wrist roll', gripperReleaseAngle];
+    yield ['wrist pitch', releaseAngle3];
     yield ['shoulder', releaseAngle1];
     //go back to ready position.
     yield ['shoulder', -releaseAngle1];
-    yield ['wrist', -releaseAngle3];
-    yield ['gripper', -gripperReleaseAngle];
+    yield ['wrist pitch', -releaseAngle3];
+    yield ['wrist roll', -gripperReleaseAngle];
     yield ['elbow', -releaseAngle2];
   }
 }

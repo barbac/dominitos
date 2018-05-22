@@ -108,11 +108,11 @@ function makeArm() {
   gripper.add(gripperMarc);
 
   const controls = new Map();
-  controls.set(...rotationControlValues(base, 'base', 'y'));
+  controls.set(...rotationControlValues(base, 'waist', 'y'));
   controls.set(...rotationControlValues(shoulder, 'shoulder', 'x'));
   controls.set(...rotationControlValues(elbow, 'elbow', 'x'));
-  controls.set(...rotationControlValues(wrist, 'wrist', 'x'));
-  controls.set(...rotationControlValues(gripper, 'gripper', 'y'));
+  controls.set(...rotationControlValues(wrist, 'wrist pitch', 'x'));
+  controls.set(...rotationControlValues(gripper, 'wrist roll', 'y'));
 
   return {
     controls,

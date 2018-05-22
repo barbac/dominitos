@@ -12,23 +12,22 @@ class Control extends React.Component {
       width: '98%',
     };
 
-    const value = object.values[settings.name];
-
     return (
       <div className="control">
         <label style={labelStyle}>
           <span style={{ flex: 1 }}>{settings.name}</span>
-          <span style={{ flex: 1 }}>{value}</span>
+          <span style={{ flex: 1 }}>{settings.degrees}</span>
         </label>
         <input
           type="range"
           min={settings.min}
           max={settings.max}
+          step="0.01"
           style={style}
-          value={value}
+          value={settings.degrees}
           onChange={e => {
-            const newValue = parseInt(e.target.value);
-            object.values[settings.name] = newValue;
+            const newValue = e.target.valueAsNumber;
+            settings.degrees = newValue;
             this.forceUpdate();
           }}
         />
@@ -43,8 +42,9 @@ function Controls({ object }) {
     return null;
   }
 
-  const _controls = object.controls.map((settings, i) => {
-    return <Control key={i} settings={settings} object={object} />;
+  const _controls = [];
+  object.controls.forEach((settings, key) => {
+    _controls.push(<Control key={key} settings={settings} object={object} />);
   });
 
   const controlsStyle = {

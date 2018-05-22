@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import utils from './utils.js';
+import rotationControlValues from './robots/controlValues.js';
 
 const PI = Math.PI;
 
@@ -47,64 +47,48 @@ function makeBase() {
   return mesh;
 }
 
-const controls = [
-  {
-    name: 'claw',
-    type: 'range',
-    min: 0,
-    max: 180,
-  },
-];
-
-let talon1, talon2, talon3, talon4;
-
-const values = {
-  _claw: 0,
-  get claw() {
-    return this._claw;
-  },
-  set claw(degrees) {
-    this._claw = degrees;
-
-    const rotation = PI / 2 - utils.radians(degrees / 2);
-    talon1.rotation.z = rotation;
-    talon2.rotation.z = rotation;
-    talon3.rotation.z = rotation;
-    talon4.rotation.z = rotation;
-  },
-};
-
 function makeClaw() {
-  const claw = {
-    controls,
-    values,
-    model: new THREE.Object3D(),
-  };
-
   const talonsDistrance = 2.5;
 
-  talon1 = makeTalonMesh();
+  const talon1 = makeTalonMesh();
   talon1.position.x = -talonsDistrance;
   talon1.position.z -= 5;
 
-  talon2 = makeTalonMesh();
+  const talon2 = makeTalonMesh();
   talon2.rotation.y = PI;
   talon2.position.x = talonsDistrance;
   talon2.position.z -= 5;
 
-  talon3 = makeTalonMesh();
+  const talon3 = makeTalonMesh();
   talon3.position.x = -talonsDistrance;
   talon3.position.z += 5;
 
-  talon4 = makeTalonMesh();
+  const talon4 = makeTalonMesh();
   talon4.rotation.y = PI;
   talon4.position.x = talonsDistrance;
   talon4.position.z += 5;
 
-  claw.values.claw = 0; //set the initial angles.
   const base = makeBase();
 
-  claw.model.add(base, talon1, talon2, talon3, talon4);
+  const clawObject3d = new THREE.Object3D();
+  clawObject3d.add(base, talon1, talon2, talon3, talon4);
+
+  const controls = new Map();
+  function setRadians(value) {
+    const rotation = PI / 2 - value / 2;
+    talon1.rotation.z = rotation;
+    talon2.rotation.z = rotation;
+    talon3.rotation.z = rotation;
+    talon4.rotation.z = rotation;
+  }
+
+  controls.set(...rotationControlValues(clawObject3d, 'claw', 'y', setRadians));
+  controls.get('claw').degrees = 0; //set the initial angles.
+
+  const claw = {
+    controls,
+    model: clawObject3d,
+  };
 
   return claw;
 }

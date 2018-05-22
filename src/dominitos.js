@@ -216,7 +216,7 @@ function* moveObjects() {
         rotationStep = degree;
       }
       for (let i = 0; i <= delta; i += degree) {
-        arm.values[movement] += rotationStep;
+        arm.controls.get(movement).radians += rotationStep;
         yield;
       }
     }

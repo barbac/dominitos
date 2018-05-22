@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import rotationControlValues from './robots/controlValues.js';
 
 const wireframeParts = true;
 
@@ -106,22 +107,15 @@ function makeArm() {
   gripperMarc.position.z = gripperThickness - gripperMarcSize / 2;
   gripper.add(gripperMarc);
 
-  function setterAndGetter(values, name, object, property) {
-    Object.defineProperty(values, name, {
-      get: () => object[property],
-      set: value => (object[property] = value),
-    });
-  }
-
-  const values = {};
-  setterAndGetter(values, 'base', base.rotation, 'y');
-  setterAndGetter(values, 'shoulder', shoulder.rotation, 'x');
-  setterAndGetter(values, 'elbow', elbow.rotation, 'x');
-  setterAndGetter(values, 'wrist', wrist.rotation, 'x');
-  setterAndGetter(values, 'gripper', gripper.rotation, 'y');
+  const controls = new Map();
+  controls.set(...rotationControlValues(base, 'base', 'y'));
+  controls.set(...rotationControlValues(shoulder, 'shoulder', 'x'));
+  controls.set(...rotationControlValues(elbow, 'elbow', 'x'));
+  controls.set(...rotationControlValues(wrist, 'wrist', 'x'));
+  controls.set(...rotationControlValues(gripper, 'gripper', 'y'));
 
   return {
-    values,
+    controls,
     model: base,
   };
 }

@@ -2,7 +2,7 @@ import React from 'react';
 
 class Control extends React.Component {
   render() {
-    const { settings, object } = this.props;
+    const { options, object } = this.props;
 
     const labelStyle = {
       display: 'flex',
@@ -15,19 +15,19 @@ class Control extends React.Component {
     return (
       <div className="control">
         <label style={labelStyle}>
-          <span style={{ flex: 1 }}>{settings.name}</span>
-          <span style={{ flex: 1 }}>{settings.degrees}</span>
+          <span style={{ flex: 1 }}>{options.name}</span>
+          <span style={{ flex: 1 }}>{options.degrees}</span>
         </label>
         <input
           type="range"
-          min={settings.min}
-          max={settings.max}
+          min={options.min}
+          max={options.max}
           step="0.01"
           style={style}
-          value={settings.degrees}
+          value={options.degrees}
           onChange={e => {
             const newValue = e.target.valueAsNumber;
-            settings.degrees = newValue;
+            options.degrees = newValue;
             this.forceUpdate();
           }}
         />
@@ -43,8 +43,8 @@ function Controls({ object }) {
   }
 
   const _controls = [];
-  object.controls.forEach((settings, key) => {
-    _controls.push(<Control key={key} settings={settings} object={object} />);
+  object.controls.forEach((options, key) => {
+    _controls.push(<Control key={key} options={options} object={object} />);
   });
 
   const controlsStyle = {

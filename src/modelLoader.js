@@ -11,6 +11,8 @@ function modelLoader() {
     throw `no model for ${modelName}`;
   }
   worldView(model());
+
+  document.title = `model: ${modelName}`;
 }
 
 export default modelLoader;

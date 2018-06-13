@@ -103,6 +103,12 @@ function makeArm(endEffector) {
   controls.set(...rotationControlValues(wrist, 'wrist pitch', 'x'));
   controls.set(...rotationControlValues(endEffector.model, 'wrist roll', 'y'));
 
+  if (endEffector.controls) {
+    for (const [name, control] of endEffector.controls.entries()) {
+      controls.set(name, control);
+    }
+  }
+
   return {
     controls,
     model: base,

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import utils from './utils.js';
-import { armDimensions, makeArm } from './arm.js';
+import { armDimensions } from './arm.js';
+import makeArm from './robots/armGripper.js';
 import moveCommands from './moveCommands.js';
 
 const dominoes = [

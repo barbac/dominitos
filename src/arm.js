@@ -12,11 +12,12 @@ const armDimensions = {
   forarmHeight: 14.8,
   //base + gripper = 15.8
   gripperBaseHeight: 5.8,
+
   gripperHeight: 10,
   gripperThickness: 2,
 };
 
-function makeArm() {
+function makeArm(endEffector) {
   const {
     vehicleHeight,
 
@@ -25,8 +26,8 @@ function makeArm() {
     forarmHeight,
     //base + gripper = 15.8
     gripperBaseHeight,
-    gripperHeight,
-    gripperThickness,
+    // gripperHeight,
+    // gripperThickness,
   } = armDimensions;
 
   const baseWidth = baseHeight / 2;
@@ -86,33 +87,21 @@ function makeArm() {
 
   const gripperBase = new THREE.Mesh(
     new THREE.BoxGeometry(baseWidth, gripperBaseHeight, baseWidth),
-    new THREE.MeshBasicMaterial({ color: 0x4613f4, wireframe: wireframeParts })
+    new THREE.MeshBasicMaterial({ color: 'red', wireframe: wireframeParts })
   );
   gripperBase.position.y = gripperBaseHeight / 2;
   wrist.add(gripperBase);
 
-  const gripper = new THREE.Mesh(
-    new THREE.BoxGeometry(baseWidth, gripperHeight, gripperThickness),
-    new THREE.MeshBasicMaterial({ color: 0x46f3ff, wireframe: wireframeParts })
-  );
-  gripper.position.y = gripperBaseHeight / 2 + gripperHeight / 2;
-  gripperBase.add(gripper);
-
-  const gripperMarcSize = gripperThickness / 3;
-  const gripperMarc = new THREE.Mesh(
-    new THREE.BoxGeometry(gripperMarcSize, gripperMarcSize, gripperMarcSize),
-    new THREE.MeshBasicMaterial({ color: 'orange' })
-  );
-  gripperMarc.position.y = gripperHeight / -2 + gripperMarcSize / 2;
-  gripperMarc.position.z = gripperThickness - gripperMarcSize / 2;
-  gripper.add(gripperMarc);
+  gripperBase.add(endEffector.model);
+  endEffector.model.position.y =
+    gripperBaseHeight / 2 + endEffector.dimensions.height / 2;
 
   const controls = new Map();
   controls.set(...rotationControlValues(base, 'waist', 'y'));
   controls.set(...rotationControlValues(shoulder, 'shoulder', 'x'));
   controls.set(...rotationControlValues(elbow, 'elbow', 'x'));
   controls.set(...rotationControlValues(wrist, 'wrist pitch', 'x'));
-  controls.set(...rotationControlValues(gripper, 'wrist roll', 'y'));
+  controls.set(...rotationControlValues(endEffector.model, 'wrist roll', 'y'));
 
   return {
     controls,

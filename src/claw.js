@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import rotationControlValues from './robots/controlValues.js';
 
 const PI = Math.PI;
+const BASE_HEIGHT = 4;
 
 function makeTalonMesh() {
   const shape = new THREE.Shape();
@@ -38,7 +39,7 @@ function makeTalonMesh() {
 }
 
 function makeBase() {
-  const geometry = new THREE.BoxGeometry(9.6, 4, 9.5);
+  const geometry = new THREE.BoxGeometry(9.5, BASE_HEIGHT, 9.5);
   const material = new THREE.MeshBasicMaterial({
     color: 'pink',
     wireframe: false,
@@ -88,6 +89,9 @@ function makeClaw() {
   const claw = {
     controls,
     model: clawObject3d,
+    dimensions: {
+      height: BASE_HEIGHT,
+    },
   };
 
   return claw;

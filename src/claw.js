@@ -23,7 +23,7 @@ function makeTalonMesh() {
   shape.bezierCurveTo(10.1662, 5.4688, 5.1021, 0.1845, 0.0, 0.0);
   shape.lineTo(0, 0);
 
-  const extrudeSettings = { amount: 1, bevelEnabled: false, steps: 1 };
+  const extrudeSettings = { depth: 1, bevelEnabled: false, steps: 1 };
   const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
   const material = new THREE.MeshBasicMaterial({
     color: 'hotpink',

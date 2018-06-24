@@ -3,18 +3,18 @@ import ReactDOM from 'react-dom';
 import Toolbar from './Toolbar.jsx';
 import Controls from './Controls.jsx';
 
-function Ui({ object }) {
+function Ui({ model }) {
   return (
     <React.Fragment>
       <Toolbar />
-      <Controls object={object} />
+      <Controls robot={model} />
     </React.Fragment>
   );
 }
 
-function initUi(objects) {
-  const activeObject = objects[0];
-  ReactDOM.render(<Ui object={activeObject} />, document.getElementById('ui'));
+function initUi(models) {
+  const activeModel = models[0];
+  ReactDOM.render(<Ui model={activeModel} />, document.getElementById('ui'));
 }
 
 export default initUi;

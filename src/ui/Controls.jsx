@@ -2,7 +2,7 @@ import React from 'react';
 
 class Control extends React.Component {
   render() {
-    const { options, object } = this.props;
+    const { options } = this.props;
 
     const labelStyle = {
       display: 'flex',
@@ -36,15 +36,15 @@ class Control extends React.Component {
   }
 }
 
-function Controls({ object }) {
-  if (!object.controls) {
+function Controls({ robot }) {
+  if (!robot.controls) {
     //simple 3d model
     return null;
   }
 
   const _controls = [];
-  object.controls.forEach((options, key) => {
-    _controls.push(<Control key={key} options={options} object={object} />);
+  robot.controls.forEach((options, key) => {
+    _controls.push(<Control key={key} options={options} />);
   });
 
   const controlsStyle = {

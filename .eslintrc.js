@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es6: true,
   },
-  extends: 'eslint:recommended',
+  extends: ['eslint:recommended', 'plugin:react/recommended'],
   parserOptions: {
     ecmaVersion: 9,
     sourceType: 'module',
@@ -13,5 +13,8 @@ module.exports = {
     'no-console': 0,
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
+
+    'react/prop-types': [0],
+    'react/display-name': [0],
   },
 };

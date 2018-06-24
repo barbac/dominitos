@@ -20,7 +20,8 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
+        enforce: 'pre',
         exclude: /node_modules/,
         loader: 'eslint-loader',
       },
@@ -29,7 +30,7 @@ module.exports = {
         loader: 'style-loader!css-loader',
       },
       {
-        test: /\.jsx$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
       },

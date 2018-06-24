@@ -19,6 +19,7 @@
     "css-loader": "^0.28.11",
     "eslint": "^5.0.0",
     "eslint-loader": "^2.0.0",
+    "eslint-plugin-react": "^7.9.1",
     "style-loader": "^0.21.0",
     "webpack": "^4.8.1",
     "webpack-cli": "^3.0.8",

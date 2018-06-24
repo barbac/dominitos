@@ -15,7 +15,7 @@ class Toolbar extends React.Component {
           <input
             type="checkbox"
             checked={settings.lockCamera}
-            onChange={e => {
+            onChange={() => {
               settings.lockCamera = !settings.lockCamera;
               this.forceUpdate();
             }}

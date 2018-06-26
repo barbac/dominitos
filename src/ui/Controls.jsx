@@ -36,29 +36,32 @@ class Control extends React.Component {
   }
 }
 
-function Controls({ robot }) {
-  if (!robot.controls) {
-    //simple 3d model
-    return null;
+class Controls extends React.Component {
+  render() {
+    const { robot } = this.props;
+    if (!robot.controls) {
+      //simple 3d model
+      return null;
+    }
+
+    const _controls = [];
+    robot.controls.forEach((controlValues, key) => {
+      _controls.push(<Control key={key} controlValues={controlValues} />);
+    });
+
+    const controlsStyle = {
+      position: 'absolute',
+      top: 400,
+      width: 500,
+      fontSize: 'x-large',
+    };
+
+    return (
+      <div id="control-panel" style={controlsStyle}>
+        <div style={{ width: 250, fontSize: 'x-large' }}>{_controls}</div>
+      </div>
+    );
   }
-
-  const _controls = [];
-  robot.controls.forEach((values, key) => {
-    _controls.push(<Control key={key} controlValues={values} />);
-  });
-
-  const controlsStyle = {
-    position: 'absolute',
-    top: 400,
-    width: 250,
-    fontSize: 'x-large',
-  };
-
-  return (
-    <div id="control-panel" style={controlsStyle}>
-      {_controls}
-    </div>
-  );
 }
 
 export default Controls;

@@ -1,4 +1,5 @@
 import React from 'react';
+import MacroControls from './MacroControls.jsx';
 
 class Control extends React.Component {
   render() {
@@ -37,6 +38,10 @@ class Control extends React.Component {
 }
 
 class Controls extends React.Component {
+  handleStepChanged = () => {
+    this.forceUpdate();
+  };
+
   render() {
     const { robot } = this.props;
     if (!robot.controls) {
@@ -52,13 +57,13 @@ class Controls extends React.Component {
     const controlsStyle = {
       position: 'absolute',
       top: 400,
-      width: 500,
-      fontSize: 'x-large',
+      display: 'flex',
     };
 
     return (
       <div id="control-panel" style={controlsStyle}>
         <div style={{ width: 250, fontSize: 'x-large' }}>{_controls}</div>
+        <MacroControls robot={robot} onStepChanged={this.handleStepChanged} />
       </div>
     );
   }

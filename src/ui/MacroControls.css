@@ -1,0 +1,20 @@
+.macro-button {
+  user-select: none;
+  padding: 10px;
+  font-size: x-large;
+}
+
+.macro-button:active {
+  color: deepskyblue;
+}
+
+.macro-steps > div {
+  padding: 10px;
+
+  user-select: none;
+}
+
+.macro-steps .active {
+  color: midnightblue;
+  background-color: deepskyblue;
+}

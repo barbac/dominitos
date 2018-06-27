@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import rotationControlValues from './robots/controlValues.js';
+import RotationControlValues from './robots/controlValues.js';
 
 const wireframeParts = true;
 
@@ -97,11 +97,21 @@ function makeArm(endEffector) {
     gripperBaseHeight / 2 + endEffector.dimensions.height / 2;
 
   const controls = new Map();
-  controls.set(...rotationControlValues(base, 'waist', 'y'));
-  controls.set(...rotationControlValues(shoulder, 'shoulder', 'x'));
-  controls.set(...rotationControlValues(elbow, 'elbow', 'x'));
-  controls.set(...rotationControlValues(wrist, 'wrist pitch', 'x'));
-  controls.set(...rotationControlValues(endEffector.model, 'wrist roll', 'y'));
+
+  let control = new RotationControlValues(base, 'waist', 'y');
+  controls.set(control.name, control);
+
+  control = new RotationControlValues(shoulder, 'shoulder', 'x');
+  controls.set(control.name, control);
+
+  control = new RotationControlValues(elbow, 'elbow', 'x');
+  controls.set(control.name, control);
+
+  control = new RotationControlValues(wrist, 'wrist pitch', 'x');
+  controls.set(control.name, control);
+
+  control = new RotationControlValues(endEffector.model, 'wrist roll', 'y');
+  controls.set(control.name, control);
 
   if (endEffector.controls) {
     for (const [name, control] of endEffector.controls.entries()) {

@@ -39,8 +39,4 @@ class RotationControlValues {
   }
 }
 
-function rotationControlValues(object3d, name, axis, setRadians) {
-  return [name, new RotationControlValues(object3d, name, axis, setRadians)];
-}
-
-export default rotationControlValues;
+export default RotationControlValues;

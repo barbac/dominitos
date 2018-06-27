@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import rotationControlValues from './robots/controlValues.js';
+import RotationControlValues from './robots/controlValues.js';
 
 const PI = Math.PI;
 const BASE_HEIGHT = 4;
@@ -83,7 +83,8 @@ function makeClaw() {
     talon4.rotation.z = rotation;
   }
 
-  controls.set(...rotationControlValues(clawObject3d, 'claw', 'y', setRadians));
+  const control = new RotationControlValues(clawObject3d, 'claw', 'y', setRadians);
+  controls.set(control.name, control);
   controls.get('claw').degrees = 0; //set the initial angles.
 
   const claw = {

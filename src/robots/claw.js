@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import RotationControlValues from './robots/controlValues.js';
+import RotationControlValues from './controlValues.js';
 
 const PI = Math.PI;
 const BASE_HEIGHT = 4;

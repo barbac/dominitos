@@ -11,6 +11,7 @@ module.exports = {
   parser: 'babel-eslint',
   rules: {
     'no-console': 0,
+    'no-debugger': 1,
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
 

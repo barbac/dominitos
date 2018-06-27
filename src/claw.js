@@ -74,7 +74,6 @@ function makeClaw() {
   const clawObject3d = new THREE.Object3D();
   clawObject3d.add(base, talon1, talon2, talon3, talon4);
 
-  const controls = new Map();
   function setRadians(value) {
     const rotation = PI / 2 - value / 2;
     talon1.rotation.z = rotation;
@@ -83,9 +82,12 @@ function makeClaw() {
     talon4.rotation.z = rotation;
   }
 
-  const control = new RotationControlValues(clawObject3d, 'claw', 'y', setRadians);
+  const control = new RotationControlValues(clawObject3d, 'claw', 'y');
+  control.setRadians = setRadians;
+  control.degrees = 0; //set the initial angles.
+
+  const controls = new Map();
   controls.set(control.name, control);
-  controls.get('claw').degrees = 0; //set the initial angles.
 
   const claw = {
     controls,

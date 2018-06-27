@@ -10,11 +10,10 @@ class RotationControlValues {
   _degreesValue = 0;
   setRadians = null;
 
-  constructor(object3d, name, axis, setRadians) {
+  constructor(object3d, name, axis) {
     this.object3d = object3d;
     this.name = name;
     this.axis = axis;
-    this.setRadians = setRadians;
   }
 
   set degrees(value) {

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import utils from './utils.js';
-import { armDimensions } from './arm.js';
+import { armDimensions } from './robots/arm.js';
 import makeArm from './robots/armGripper.js';
 import moveCommands from './moveCommands.js';
 

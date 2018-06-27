@@ -1,4 +1,4 @@
-import arm from '../arm.js';
+import arm from './arm.js';
 import claw from './claw.js';
 
 function armClaw() {

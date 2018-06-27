@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import RotationControlValues from './robots/controlValues.js';
-import Macro from './macros/Macro.js';
+import RotationControlValues from './controlValues.js';
+import Macro from '../macros/Macro.js';
 
 const wireframeParts = true;
 

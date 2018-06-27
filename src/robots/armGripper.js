@@ -1,4 +1,4 @@
-import arm from '../arm.js';
+import arm from './arm.js';
 import gripper from './gripper.js';
 
 function armGripper() {

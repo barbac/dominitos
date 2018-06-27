@@ -25,11 +25,14 @@ function Steps({ steps, activeStep, onStepClick }) {
 
 class MacroControls extends React.Component {
   handleStepClick = index => {
-    console.log('step', index);
+    const { macro } = this.props.robot;
+    macro.activeStep = index;
+
     this.props.onStepChanged();
   };
 
   render() {
+    const { macro } = this.props.robot;
     const style = {
       textAlign: 'center',
       marginBottom: 20,
@@ -45,9 +48,10 @@ class MacroControls extends React.Component {
           <Button text="+" />
           <Button text="-" />
         </div>
+        <div style={{ padding: 7 }}>{macro.name}</div>
         <Steps
-          steps={[0, 1]}
-          activeStep={1}
+          steps={macro.steps}
+          activeStep={macro.activeStep}
           onStepClick={this.handleStepClick}
         />
       </div>

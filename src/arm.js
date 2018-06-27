@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import RotationControlValues from './robots/controlValues.js';
+import Macro from './macros/Macro.js';
 
 const wireframeParts = true;
 
@@ -96,25 +97,33 @@ function makeArm(endEffector) {
   endEffector.model.position.y =
     gripperBaseHeight / 2 + endEffector.dimensions.height / 2;
 
+  const macro = new Macro('default macro');
+
   const controls = new Map();
 
-  let control = new RotationControlValues(base, 'waist', 'y');
+  let control = new RotationControlValues(base, 'waist', 'y', macro);
   controls.set(control.name, control);
 
-  control = new RotationControlValues(shoulder, 'shoulder', 'x');
+  control = new RotationControlValues(shoulder, 'shoulder', 'x', macro);
   controls.set(control.name, control);
 
-  control = new RotationControlValues(elbow, 'elbow', 'x');
+  control = new RotationControlValues(elbow, 'elbow', 'x', macro);
   controls.set(control.name, control);
 
-  control = new RotationControlValues(wrist, 'wrist pitch', 'x');
+  control = new RotationControlValues(wrist, 'wrist pitch', 'x', macro);
   controls.set(control.name, control);
 
-  control = new RotationControlValues(endEffector.model, 'wrist roll', 'y');
+  control = new RotationControlValues(
+    endEffector.model,
+    'wrist roll',
+    'y',
+    macro
+  );
   controls.set(control.name, control);
 
   if (endEffector.controls) {
     for (const [name, control] of endEffector.controls.entries()) {
+      control.macro = macro;
       controls.set(name, control);
     }
   }
@@ -122,6 +131,7 @@ function makeArm(endEffector) {
   return {
     controls,
     model: base,
+    macro,
   };
 }
 

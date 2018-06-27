@@ -7,18 +7,37 @@ class RotationControlValues {
   max = 180;
   axis = null;
   object3d = null;
+  _macro = null;
   _degreesValue = 0;
   setRadians = null;
 
-  constructor(object3d, name, axis) {
+  constructor(object3d, name, axis, macro) {
     this.object3d = object3d;
     this.name = name;
     this.axis = axis;
+
+    if (macro) {
+      this._macro = macro;
+      this.macro = macro;
+    }
   }
+
+  set macro(macro) {
+    this._macro = macro;
+    this._macro.registerControl(this.readValuesFromMacro);
+  }
+
+  readValuesFromMacro = () => {
+    this.degrees = this._macro.get(this.name) || this.degrees;
+  };
 
   set degrees(value) {
     this._degreesValue = value;
     this.radians = utils.radians(value);
+
+    if (this._macro) {
+      this._macro.set(this.name, value);
+    }
   }
 
   get degrees() {

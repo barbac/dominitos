@@ -130,7 +130,7 @@ function init() {
 
   //arm
 
-  arm = makeArm();
+  arm = new makeArm();
   vehicle.add(arm.model);
 
   //dominoes

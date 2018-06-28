@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import RotationControlValues from './controlValues.js';
+import AbstractRobot from './AbstractRobot.js';
 
 const PI = Math.PI;
 const BASE_HEIGHT = 4;
@@ -48,56 +48,51 @@ function makeBase() {
   return mesh;
 }
 
-function makeClaw() {
-  const talonsDistrance = 2.5;
+class Claw extends AbstractRobot {
+  name = 'Claw';
+  machineName = 'claw';
 
-  const talon1 = makeTalonMesh();
-  talon1.position.x = -talonsDistrance;
-  talon1.position.z -= 5;
+  init() {
+    const talonsDistrance = 2.5;
 
-  const talon2 = makeTalonMesh();
-  talon2.rotation.y = PI;
-  talon2.position.x = talonsDistrance;
-  talon2.position.z -= 5;
+    const talon1 = makeTalonMesh();
+    talon1.position.x = -talonsDistrance;
+    talon1.position.z -= 5;
 
-  const talon3 = makeTalonMesh();
-  talon3.position.x = -talonsDistrance;
-  talon3.position.z += 5;
+    const talon2 = makeTalonMesh();
+    talon2.rotation.y = PI;
+    talon2.position.x = talonsDistrance;
+    talon2.position.z -= 5;
 
-  const talon4 = makeTalonMesh();
-  talon4.rotation.y = PI;
-  talon4.position.x = talonsDistrance;
-  talon4.position.z += 5;
+    const talon3 = makeTalonMesh();
+    talon3.position.x = -talonsDistrance;
+    talon3.position.z += 5;
 
-  const base = makeBase();
+    const talon4 = makeTalonMesh();
+    talon4.rotation.y = PI;
+    talon4.position.x = talonsDistrance;
+    talon4.position.z += 5;
 
-  const clawObject3d = new THREE.Object3D();
-  clawObject3d.add(base, talon1, talon2, talon3, talon4);
+    const base = makeBase();
 
-  function setRadians(value) {
-    const rotation = PI / 2 - value / 2;
-    talon1.rotation.z = rotation;
-    talon2.rotation.z = rotation;
-    talon3.rotation.z = rotation;
-    talon4.rotation.z = rotation;
+    const clawObject3d = new THREE.Object3D();
+    this.model = clawObject3d;
+    clawObject3d.add(base, talon1, talon2, talon3, talon4);
+
+    function setRadians(value) {
+      const rotation = PI / 2 - value / 2;
+      talon1.rotation.z = rotation;
+      talon2.rotation.z = rotation;
+      talon3.rotation.z = rotation;
+      talon4.rotation.z = rotation;
+    }
+
+    const control = this.addControl(clawObject3d, 'claw', 'y');
+    control.setRadians = setRadians;
+    control.degrees = 0; //set the initial angles.
+
+    this.dimensions.height = BASE_HEIGHT;
   }
-
-  const control = new RotationControlValues(clawObject3d, 'claw', 'y');
-  control.setRadians = setRadians;
-  control.degrees = 0; //set the initial angles.
-
-  const controls = new Map();
-  controls.set(control.name, control);
-
-  const claw = {
-    controls,
-    model: clawObject3d,
-    dimensions: {
-      height: BASE_HEIGHT,
-    },
-  };
-
-  return claw;
 }
 
-export default makeClaw;
+export default Claw;

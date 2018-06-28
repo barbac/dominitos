@@ -10,7 +10,7 @@ function modelLoader() {
   if (!model) {
     throw `no model for ${modelName}`;
   }
-  worldView(new model());
+  worldView(new model(true));
 
   document.title = `model: ${modelName}`;
 }

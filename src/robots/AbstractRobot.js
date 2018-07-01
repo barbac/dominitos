@@ -33,4 +33,15 @@ export default class AbstractRobot {
     this.controls.set(name, control);
     return control;
   }
+
+  mergeControls(robot) {
+    if (!robot.controls) {
+      return;
+    }
+
+    for (const [name, control] of robot.controls.entries()) {
+      control.macro = this.macro;
+      this.controls.set(name, control);
+    }
+  }
 }

@@ -2,8 +2,8 @@ import Macro from '../macros/Macro.js';
 import RotationControlValues from './controlValues.js';
 
 export default class AbstractRobot {
-  name = '';
-  machineName = '';
+  name = 'AbstractRobot';
+  machineName = 'AbstractRobot';
   model = null;
   dimensions = {};
   macros = [];
@@ -20,6 +20,7 @@ export default class AbstractRobot {
   }
 
   init() {
+    throw 'Not implemented';
   }
 
   addControl(object3D, name, property) {

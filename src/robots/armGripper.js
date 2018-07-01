@@ -1,8 +1,11 @@
-import arm from './arm.js';
-import gripper from './gripper.js';
+import Arm from './arm.js';
+import Gripper from './gripper.js';
 
-function armGripper() {
-  return arm(new gripper());
+export default class ArmGripper extends Arm {
+  name = 'Arm with claw';
+  machineName = 'arm-claw';
+
+  get endEffector() {
+    return new Gripper();
+  }
 }
-
-export default armGripper;

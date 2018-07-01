@@ -19,13 +19,11 @@ function makeGripper() {
   gripperMarc.position.z = thickness - gripperMarcSize / 2;
   gripperModel.add(gripperMarc);
 
-  return {
-    model: gripperModel,
-    dimensions: {
-      width,
-      height,
-      thickness,
-    },
+  this.model = gripperModel;
+  this.dimensions = {
+    width,
+    height,
+    thickness,
   };
 }
 

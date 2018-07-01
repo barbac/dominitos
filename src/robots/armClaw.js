@@ -1,8 +1,13 @@
-import arm from './arm.js';
-import claw from './claw.js';
+import Arm from './arm.js';
+import Claw from './claw.js';
 
-function armClaw() {
-  return arm(new claw());
+class ArmClaw extends Arm {
+  name = 'Arm with claw';
+  machineName = 'arm-claw';
+
+  get endEffector() {
+    return new Claw();
+  }
 }
 
-export default armClaw;
+export default ArmClaw;

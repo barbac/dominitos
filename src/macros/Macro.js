@@ -4,14 +4,14 @@ export default class Macro {
   _activeStep = 0;
   steps = [new Map(), new Map()]; //2 empty steps by default.
   onStepChanged = null;
-  controls = [];
+  controls = new Set();
 
   constructor(name) {
     this.name = name;
   }
 
   registerControl(func) {
-    this.controls.push(func);
+    this.controls.add(func);
   }
 
   get activeStep() {

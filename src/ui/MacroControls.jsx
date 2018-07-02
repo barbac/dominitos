@@ -1,9 +1,6 @@
 import React from 'react';
 import './MacroControls.css';
-
-function Button({ text }) {
-  return <span className="macro-button">{text}</span>;
-}
+import Button from './Button.jsx';
 
 function Steps({ steps, activeStep, onStepClick }) {
   return (

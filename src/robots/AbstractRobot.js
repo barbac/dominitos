@@ -49,4 +49,11 @@ export default class AbstractRobot {
   addMacro() {
     this.macros.push(new Macro('new macro'));
   }
+
+  setMacro(index) {
+    this.macro = this.macros[index];
+    for (const control of this.controls.values()) {
+      control.macro = this.macro;
+    }
+  }
 }

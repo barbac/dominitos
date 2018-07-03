@@ -1,6 +1,7 @@
 import React from 'react';
 import './MacroControls.css';
 import Button from './Button.jsx';
+import MacroSelector from './MacroSelector.jsx';
 
 function Steps({ steps, activeStep, onStepClick }) {
   return (
@@ -37,6 +38,9 @@ class MacroControls extends React.Component {
 
     return (
       <div>
+        <div style={style}>
+          <MacroSelector robot={this.props.robot} />
+        </div>
         <div style={style}>
           <Button text="▶" />
           <Button text="◼" />

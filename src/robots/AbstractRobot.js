@@ -15,6 +15,7 @@ export default class AbstractRobot {
     this.controlValues = RotationControlValues;
     if (controllerRobot) {
       this.macro = new Macro('default macro');
+      this.macros.push(this.macro);
     }
     this.init();
   }
@@ -43,5 +44,9 @@ export default class AbstractRobot {
       control.macro = this.macro;
       this.controls.set(name, control);
     }
+  }
+
+  addMacro() {
+    this.macros.push(new Macro('new macro'));
   }
 }

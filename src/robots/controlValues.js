@@ -28,7 +28,12 @@ class RotationControlValues {
   }
 
   readValuesFromMacro = () => {
-    this.degrees = this._macro.get(this.name) || this.degrees;
+    const degrees = this._macro.get(this.name);
+    if (degrees === undefined) {
+      //No value stored in the macro for this control.
+      return;
+    }
+    this.degrees = this._macro.get(this.name);
   };
 
   set degrees(value) {

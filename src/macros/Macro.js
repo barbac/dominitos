@@ -5,6 +5,7 @@ export default class Macro {
   steps = [new Map(), new Map()]; //2 empty steps by default.
   onStepChanged = null;
   controls = new Set();
+  save = false;
 
   constructor(name) {
     this.name = name;
@@ -32,5 +33,9 @@ export default class Macro {
 
   set(controlName, value) {
     this.steps[this.activeStep].set(controlName, value);
+  }
+
+  markToSave() {
+    this.save = true;
   }
 }

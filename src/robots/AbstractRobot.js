@@ -56,4 +56,8 @@ export default class AbstractRobot {
       control.macro = this.macro;
     }
   }
+
+  currentMacroIndex() {
+    return this.macros.indexOf(this.macro);
+  }
 }

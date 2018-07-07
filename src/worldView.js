@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import settings from './settings.js';
 import initUi from './ui/initUi.jsx';
+import { storeMacros, loadMacros } from './macros/macroStore.js';
 
 let scene, camera, renderer;
 let firstPersonCamera, firstPersonCameraContainer;
@@ -178,6 +179,12 @@ function setCamera(cameraName) {
 }
 
 function worldView(...models) {
+  for (const robot of models) {
+    if (robot.model) {
+      loadMacros(robot);
+    }
+  }
+
   initUi(models);
   init();
 
@@ -188,7 +195,15 @@ function worldView(...models) {
 
   setCamera(settings.camera);
 
-  window.addEventListener('beforeunload', saveState);
+  window.addEventListener('beforeunload', () => {
+    saveState();
+    for (const robot of models) {
+      if (robot.model) {
+        storeMacros(robot);
+      }
+    }
+  });
+
   loadState();
 
   animate();

@@ -22,4 +22,13 @@ function macrosFromJSON(jsonString) {
   return macros;
 }
 
-export { macrosToJSON, macrosFromJSON };
+function storeMacros(robot) {
+  window.localStorage.setItem(robot.machineName, macrosToJSON(robot.macros));
+}
+
+function loadMacros(robot) {
+  const macros = macrosFromJSON(window.localStorage.getItem(robot.machineName));
+  robot.macros.push(...macros);
+}
+
+export { macrosToJSON, macrosFromJSON, storeMacros, loadMacros };

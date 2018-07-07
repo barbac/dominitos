@@ -6,6 +6,7 @@ const MACROS_IN_JSON =
 
 test('macros JSON serialization', () => {
   const macro1 = new Macro();
+  macro1.save = true;
   macro1.set('control1', 3);
   macro1.set('control2', 6);
   macro1.activeStep = 1;
@@ -13,6 +14,7 @@ test('macros JSON serialization', () => {
   macro1.set('control2', 1);
 
   const macro2 = new Macro();
+  macro2.save = true;
   macro2.set('control3', 4);
   macro2.set('control4', 9);
 

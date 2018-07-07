@@ -11,6 +11,7 @@ export default class MacroSelector extends React.Component {
 
   handleMacroChange = event => {
     this.props.robot.setMacro(Number(event.target.value));
+    this.props.onMacroChange();
     this.forceUpdate();
   };
 

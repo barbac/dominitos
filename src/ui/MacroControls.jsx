@@ -26,7 +26,7 @@ class MacroControls extends React.Component {
     const { macro } = this.props.robot;
     macro.activeStep = index;
 
-    this.props.onStepChanged();
+    this.props.onMacroChange();
   };
 
   render() {
@@ -39,7 +39,10 @@ class MacroControls extends React.Component {
     return (
       <div>
         <div style={style}>
-          <MacroSelector robot={this.props.robot} />
+          <MacroSelector
+            robot={this.props.robot}
+            onMacroChange={this.props.onMacroChange}
+          />
         </div>
         <div style={style}>
           <Button text="▶" />

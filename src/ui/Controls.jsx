@@ -38,7 +38,7 @@ class Control extends React.Component {
 }
 
 class Controls extends React.Component {
-  handleStepChanged = () => {
+  handleMacroChanged = () => {
     this.forceUpdate();
   };
 
@@ -63,7 +63,7 @@ class Controls extends React.Component {
     return (
       <div id="control-panel" style={controlsStyle}>
         <div style={{ width: 250, fontSize: 'x-large' }}>{_controls}</div>
-        <MacroControls robot={robot} onStepChanged={this.handleStepChanged} />
+        <MacroControls robot={robot} onMacroChange={this.handleMacroChanged} />
       </div>
     );
   }

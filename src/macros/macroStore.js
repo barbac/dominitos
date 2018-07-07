@@ -1,7 +1,7 @@
 import Macro from './Macro.js';
 
 function macrosToJSON(macros) {
-  const _macros = macros.map(macro => {
+  const _macros = macros.filter(macro => macro.save).map(macro => {
     return macro.steps.map(step => Array.from(step));
   });
   const serializedMacros = JSON.stringify(_macros);
@@ -15,6 +15,7 @@ function macrosFromJSON(jsonString) {
       return new Map(stepsList);
     });
     const macro = new Macro('TODO: store/load name');
+    macro.save = true;
     macro.steps = steps;
     return macro;
   });

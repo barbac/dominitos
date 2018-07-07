@@ -47,6 +47,9 @@ test('macros deserialization from JSON', () => {
 
   const [macro1, macro2] = macros;
 
+  expect(macro1.save).toBeTruthy();
+  expect(macro2.save).toBeTruthy();
+
   expect(macro1.steps.length).toBe(2);
   expect(macro1.get('control1')).toBe(3);
   expect(macro1.get('control2')).toBe(6);

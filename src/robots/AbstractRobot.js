@@ -55,6 +55,7 @@ export default class AbstractRobot {
     for (const control of this.controls.values()) {
       control.macro = this.macro;
     }
+    this.macro.activeStep = 0; //initial state
   }
 
   currentMacroIndex() {

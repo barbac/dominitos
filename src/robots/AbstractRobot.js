@@ -14,14 +14,28 @@ export default class AbstractRobot {
   constructor(controllerRobot = false) {
     this.controlValues = RotationControlValues;
     if (controllerRobot) {
-      this.macro = new Macro('default macro');
-      this.macros.push(this.macro);
+      this.addMacro('default macro');
+      this.macro = this.macros[0];
     }
     this.init();
+    this.postInit();
   }
 
   init() {
     throw 'Not implemented';
+  }
+
+  postInit() {
+    //set the initial step for the first macro.
+
+    if (!this.macro) {
+      return;
+    }
+
+    //read default value
+    for (const [name, control] of this.controls) {
+      this.macro.set(name, control.degrees);
+    }
   }
 
   addControl(object3D, name, property) {
@@ -46,8 +60,9 @@ export default class AbstractRobot {
     }
   }
 
-  addMacro() {
-    this.macros.push(new Macro('new macro'));
+  addMacro(name = 'new macro') {
+    const newMacro = new Macro(name);
+    this.macros.push(newMacro);
   }
 
   setMacro(index) {

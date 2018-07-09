@@ -1,3 +1,4 @@
+// import _ from 'lodash';
 import Macro from '../macros/Macro.js';
 import RotationControlValues from './controlValues.js';
 
@@ -63,6 +64,7 @@ export default class AbstractRobot {
   addMacro(name = 'new macro') {
     const newMacro = new Macro(name);
     this.macros.push(newMacro);
+    this.setMacro(this.macros.length - 1);
   }
 
   setMacro(index) {

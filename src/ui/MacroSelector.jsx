@@ -7,6 +7,7 @@ export default class MacroSelector extends React.Component {
 
     //Use the macro to notify controls instead??
     this.forceUpdate();
+    this.props.onMacroChange();
   };
 
   handleMacroChange = event => {

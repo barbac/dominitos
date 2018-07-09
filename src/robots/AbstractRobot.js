@@ -1,4 +1,4 @@
-// import _ from 'lodash';
+import _ from 'lodash';
 import Macro from '../macros/Macro.js';
 import RotationControlValues from './controlValues.js';
 
@@ -63,12 +63,20 @@ export default class AbstractRobot {
 
   addMacro(name = 'new macro') {
     const newMacro = new Macro(name);
+    const lastMacro = this.macro;
+
+    if (lastMacro && lastMacro !== newMacro) {
+      //initial step should start on the last macro step.
+      newMacro.steps[0] = new Map(_.last(lastMacro.steps));
+    }
+
     this.macros.push(newMacro);
     this.setMacro(this.macros.length - 1);
   }
 
   setMacro(index) {
     this.macro = this.macros[index];
+    console.log(index, this.macro);
     for (const control of this.controls.values()) {
       control.macro = this.macro;
     }

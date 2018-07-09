@@ -56,14 +56,20 @@ class Controls extends React.Component {
 
     const controlsStyle = {
       position: 'absolute',
-      top: 400,
       display: 'flex',
+      height: '100%',
+      alignItems: 'center',
     };
 
     return (
       <div id="control-panel" style={controlsStyle}>
-        <div style={{ width: 250, fontSize: 'x-large' }}>{_controls}</div>
-        <MacroControls robot={robot} onMacroChange={this.handleMacroChanged} />
+        <div style={{ display: 'flex' }}>
+          <div style={{ width: 250, fontSize: 'x-large' }}>{_controls}</div>
+          <MacroControls
+            robot={robot}
+            onMacroChange={this.handleMacroChanged}
+          />
+        </div>
       </div>
     );
   }

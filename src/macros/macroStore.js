@@ -9,6 +9,9 @@ function macrosToJSON(macros) {
 }
 
 function macrosFromJSON(jsonString) {
+  if (!jsonString) {
+    return []; //no macros stored.
+  }
   const rawMacros = JSON.parse(jsonString);
   const macros = rawMacros.map(rawMacro => {
     const steps = rawMacro.map(stepsList => {

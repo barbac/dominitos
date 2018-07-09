@@ -29,6 +29,18 @@ class MacroControls extends React.Component {
     this.props.onMacroChange();
   };
 
+  handleAddStep = () => {
+    const { macro } = this.props.robot;
+    macro.addStep();
+    this.props.onMacroChange();
+  };
+
+  handleRemoveStep = () => {
+    const { macro } = this.props.robot;
+    macro.removeStep();
+    this.props.onMacroChange();
+  };
+
   render() {
     const { macro } = this.props.robot;
     const style = {
@@ -49,8 +61,8 @@ class MacroControls extends React.Component {
           <Button text="◼" />
         </div>
         <div style={style}>
-          <Button text="+" />
-          <Button text="-" />
+          <Button text="+" onClick={this.handleAddStep} />
+          <Button text="-" onClick={this.handleRemoveStep} />
         </div>
         <div style={{ padding: 7 }}>{macro.name}</div>
         <Steps

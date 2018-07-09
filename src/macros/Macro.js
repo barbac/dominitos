@@ -26,6 +26,25 @@ export default class Macro {
     }
   }
 
+  addStep() {
+    this.steps = [...this.steps, new Map()];
+  }
+
+  removeStep() {
+    const index = this.activeStep;
+
+    if (index !== 0 && index === this.steps.length - 1) {
+      //change active step since last step will be removed.
+      this.activeStep = this.steps.length - 2;
+    }
+
+    if (!index && !this.steps.length) {
+      this.steps = [new Map()];
+    } else {
+      this.steps = this.steps.filter((step, i) => i !== index);
+    }
+  }
+
   get(controlName) {
     const stepValues = this.steps[this.activeStep];
     return stepValues ? stepValues.get(controlName) : null;

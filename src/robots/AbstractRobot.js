@@ -74,6 +74,21 @@ export default class AbstractRobot {
     this.setMacro(this.macros.length - 1);
   }
 
+  removeMacro() {
+    const index = this.macros.lastIndexOf(this.macro);
+
+    if (index !== 0 && index === this.macros.length - 1) {
+      //change active macro since last macro will be removed.
+      this.macro = this.macros[this.macros.length - 2];
+    }
+
+    this.macros.splice(index, 1);
+    if (!this.macros.length) {
+      this.addMacro('default macro');
+      this.macro = this.macros[0];
+    }
+  }
+
   setMacro(index) {
     this.macro = this.macros[index];
     console.log(index, this.macro);

@@ -10,6 +10,13 @@ export default class MacroSelector extends React.Component {
     this.props.onMacroChange();
   };
 
+  handleRemoveMacro = () => {
+    this.props.robot.removeMacro();
+
+    this.forceUpdate();
+    this.props.onMacroChange();
+  };
+
   handleMacroChange = event => {
     this.props.robot.setMacro(Number(event.target.value));
     this.props.onMacroChange();
@@ -26,7 +33,7 @@ export default class MacroSelector extends React.Component {
       <div>
         <div>
           <Button text="+" onClick={this.handleAddMacro} />
-          <Button text="-" />
+          <Button text="-" onClick={this.handleRemoveMacro} />
         </div>
         <select
           value={this.props.robot.currentMacroIndex()}

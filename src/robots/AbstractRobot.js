@@ -23,7 +23,7 @@ export default class AbstractRobot {
   }
 
   init() {
-    throw 'Not implemented';
+    throw new Error('Not implemented');
   }
 
   postInit() {

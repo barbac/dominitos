@@ -160,11 +160,6 @@ function saveState() {
   window.localStorage.setItem('state', JSON.stringify(state));
 }
 
-function animate() {
-  window.requestAnimationFrame(animate);
-  renderer.render(scene, camera);
-}
-
 function setCamera(cameraName) {
   cameraName = cameraName || 'firstPersonCamera';
   const _camera = cameras[cameraName];
@@ -203,6 +198,15 @@ function worldView(...models) {
   });
 
   loadState();
+
+  function animate(timestamp) {
+    for (const robot of robots) {
+      robot.simulationStep(timestamp);
+    }
+
+    window.requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+  }
 
   animate();
 }

@@ -22,6 +22,11 @@ function Steps({ steps, activeStep, onStepClick }) {
 }
 
 class MacroControls extends React.Component {
+  handlePlay = () => {
+    const { robot } = this.props;
+    robot.playMacro();
+  };
+
   handleStepClick = index => {
     const { macro } = this.props.robot;
     macro.activeStep = index;
@@ -57,7 +62,7 @@ class MacroControls extends React.Component {
           />
         </div>
         <div style={style}>
-          <Button text="▶" />
+          <Button text="▶" onClick={this.handlePlay} />
           <Button text="◼" />
         </div>
         <div style={style}>

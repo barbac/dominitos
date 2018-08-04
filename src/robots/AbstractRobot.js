@@ -2,6 +2,10 @@ import _ from 'lodash';
 import Macro from '../macros/Macro.js';
 import RotationControlValues from './controlValues.js';
 
+const STEP_DELTA = 1;
+const stepsPerSecond = 30;
+const stepTimeDelta = Math.ceil(1000 / stepsPerSecond);
+
 export default class AbstractRobot {
   name = 'AbstractRobot';
   machineName = 'AbstractRobot';
@@ -11,6 +15,7 @@ export default class AbstractRobot {
   macro = null;
   controlValues = null;
   controls = new Map();
+  idle = true;
 
   constructor(controllerRobot = false) {
     this.controlValues = RotationControlValues;
@@ -91,7 +96,6 @@ export default class AbstractRobot {
 
   setMacro(index) {
     this.macro = this.macros[index];
-    console.log(index, this.macro);
     for (const control of this.controls.values()) {
       control.macro = this.macro;
     }
@@ -100,5 +104,75 @@ export default class AbstractRobot {
 
   currentMacroIndex() {
     return this.macros.indexOf(this.macro);
+  }
+
+  get rawValues() {
+    return _.map([...this.controls.values()], control => control.degrees);
+  }
+
+  *playMacroGenerator() {
+    for (const control of this.controls) {
+      control.updateMacro = false;
+    }
+
+    //TODO: go to initial position
+
+    for (const step of this.macro.steps) {
+      for (const [name, destination] of step) {
+        if (destination === undefined) {
+          //the macro step doesn't control this value.
+          continue;
+        }
+
+        const control = this.controls.get(name);
+        const initialPosition = control.degrees;
+        const delta = destination - initialPosition;
+        if (!delta) {
+          continue; //don't waste 1 step if no movement is needed.
+        }
+
+        const steps = Math.floor(delta / STEP_DELTA);
+        const stepsCount = Math.abs(steps);
+        const sign = Math.sign(steps);
+
+        for (let i = 0; i < stepsCount; ++i) {
+          control.degrees += STEP_DELTA * sign;
+          // console.log(initialPosition, destination, control.degrees);
+          yield;
+        }
+        if (delta % STEP_DELTA) {
+          //the missing part.
+          control.degrees = destination;
+          // console.log(initialPosition, destination, control.degrees);
+          yield;
+        }
+      }
+    }
+
+    for (const control of this.controls) {
+      control.updateMacro = true;
+    }
+
+    this.idle = true;
+  }
+
+  lastTimestamp = 0;
+  _simulation = null;
+
+  playMacro() {
+    this.idle = false;
+    this._simulation = this.playMacroGenerator();
+  }
+
+  simulationStep(timestamp) {
+    if (this.idle) {
+      return;
+    }
+
+    const timeDelta = timestamp - this.lastTimestamp;
+    if (timeDelta >= stepTimeDelta) {
+      this._simulation.next();
+      this.lastTimestamp = timestamp || 0;
+    }
   }
 }

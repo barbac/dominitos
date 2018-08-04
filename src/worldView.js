@@ -179,10 +179,10 @@ function setCamera(cameraName) {
 }
 
 function worldView(...models) {
-  for (const robot of models) {
-    if (robot.model) {
-      loadMacros(robot);
-    }
+  const robots = models.filter(model => model.model);
+
+  for (const robot of robots) {
+    loadMacros(robot);
   }
 
   initUi(models);
@@ -197,10 +197,8 @@ function worldView(...models) {
 
   window.addEventListener('beforeunload', () => {
     saveState();
-    for (const robot of models) {
-      if (robot.model) {
-        storeMacros(robot);
-      }
+    for (const robot of robots) {
+      storeMacros(robot);
     }
   });
 

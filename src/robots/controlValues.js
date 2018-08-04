@@ -10,6 +10,7 @@ class RotationControlValues {
   _macro = null;
   _degreesValue = 0;
   setRadians = null;
+  updateMacro = true;
 
   constructor(object3d, name, axis, macro) {
     this.object3d = object3d;
@@ -40,7 +41,7 @@ class RotationControlValues {
     this._degreesValue = value;
     this.radians = utils.radians(value);
 
-    if (this._macro) {
+    if (this._macro && this.updateMacro) {
       this._macro.set(this.name, value);
     }
   }

@@ -1,7 +1,5 @@
 import './manualControls.css';
 
-const SERVER_URL = 'http://localhost:5000';
-
 function controls() {
   const joints = ['base', 'shoulder', 'elbow', 'wrist', 'hand', 'gripper'];
 

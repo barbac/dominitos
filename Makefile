@@ -1,7 +1,7 @@
 .PHONY: server_frontend server_backend test
 
 server_frontend:
-	./node_modules/.bin/webpack-dev-server --mode development
+	 SERVER_URL='http://localhost:5000' ./node_modules/.bin/webpack-dev-server --mode development
 
 test:
 	node_modules/.bin/jest

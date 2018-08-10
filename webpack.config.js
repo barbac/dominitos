@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const distDir = path.resolve(__dirname, 'dist');
 
@@ -36,4 +37,9 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      SERVER_URL: JSON.stringify(process.env.SERVER_URL),
+    }),
+  ],
 };

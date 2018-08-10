@@ -3,6 +3,7 @@ const settings = {
   camera: 'firstPersonCamera',
   lockCamera: true,
   init: init,
+  serverUrl: SERVER_URL,
 };
 
 function _settingFromUrl(settingName) {

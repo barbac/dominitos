@@ -23,3 +23,30 @@ def joint():
     return Response('{} {}\n'.format(joint, degree),
                     headers={'Access-Control-Allow-Origin': '*'},
                     mimetype='text/plain')
+
+
+@app.route('/values', methods=['POST', 'OPTIONS'])
+def values():
+    body = ''
+
+    if request.method == 'POST':
+        print('po')
+        for value in request.json:
+            # message = value.to_bytes(2, 'little')
+            message = bytes([int(value)])
+            print('out', value, message, end='--')
+            if serial_port:
+                serial_port.write(message)
+        print()
+        if serial_port:
+            print('in', serial_port.readline())
+        body = 'ok'
+    else:
+        print('wtf')
+
+    return Response(body,
+                    headers={
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Headers': 'Content-Type',
+                    },
+                    mimetype='text/plain')

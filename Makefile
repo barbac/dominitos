@@ -1,4 +1,4 @@
-.PHONY: server_frontend server_backend test
+.PHONY: server_frontend server_backend test clean
 
 server_frontend:
 	 SERVER_URL='http://localhost:5000' ./node_modules/.bin/webpack-dev-server --mode development
@@ -15,3 +15,14 @@ server_backend_test:
 servers: server_frontend server_backend
 
 servers_test: server_frontend server_backend_test
+
+dist/bundle.js:
+	SERVER_URL='//' ./node_modules/.bin/webpack
+
+package.tar.gz: dist/bundle.js
+	./scripts/package.sh
+
+clean:
+	rm -f dist/bundle.js
+	rm -f dist/bundle.js.map
+	rm -f package.tar.gz

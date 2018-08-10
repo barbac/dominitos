@@ -38,6 +38,27 @@ class Control extends React.Component {
 }
 
 class Controls extends React.Component {
+  handlePosition = () => {
+    const { robot } = this.props;
+    const values = Array.from(robot.rawValues);
+    console.log(values);
+
+    window
+      .fetch(`${SERVER_URL}/values`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      })
+      .then(response => {
+        return response.text();
+      })
+      .then(text => {
+        console.log('response:', text);
+      });
+  };
+
   handleMacroChanged = () => {
     this.forceUpdate();
   };
@@ -64,7 +85,15 @@ class Controls extends React.Component {
     return (
       <div id="control-panel" style={controlsStyle}>
         <div style={{ display: 'flex' }}>
-          <div style={{ width: 250, fontSize: 'x-large' }}>{_controls}</div>
+          <div style={{ width: 250, fontSize: 'x-large' }}>
+            <button
+              style={{ width: '100%', minHeight: '2em' }}
+              onClick={this.handlePosition}
+            >
+              send position
+            </button>
+            {_controls}
+          </div>
           <MacroControls
             robot={robot}
             onMacroChange={this.handleMacroChanged}

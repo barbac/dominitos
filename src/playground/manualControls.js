@@ -12,7 +12,7 @@ function controls() {
       const degree = e.target.value;
       label.textContent = degree;
       window
-        .fetch(`${SERVER_URL}?joint=${i}&degree=${degree}`, {
+        .fetch(`${SERVER_URL}/joint?joint=${i}&degree=${degree}`, {
           headers: {
             'Content-Type': 'text/plain',
           },

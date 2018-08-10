@@ -8,8 +8,8 @@ serial_port = None if NO_SERIAL else serial.Serial('/dev/ttyACM0')
 
 app = Flask(__name__)
 
-@app.route('/')
-def root():
+@app.route('/joint')
+def joint():
     joint = int(request.args.get('joint'))
     degree = int(request.args.get('degree'))
 

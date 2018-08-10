@@ -1,4 +1,4 @@
-from flask import Flask, request, Response
+from flask import Flask, request, Response, send_from_directory
 from os import environ
 import serial
 
@@ -50,3 +50,8 @@ def values():
                         'Access-Control-Allow-Headers': 'Content-Type',
                     },
                     mimetype='text/plain')
+
+
+@app.route('/<static_file>')
+def section(static_file):
+    return send_from_directory('dist', static_file)

@@ -7,4 +7,11 @@ tar cfv $OUTPUT_FILE server.py dist
 
 cd ~/.local/lib/python3.5/site-packages
 
-tar --append --verbose --file=$OUTPUT_FILE serial/**/*py flask/**/*py werkzeug/**/*py
+tar --append --verbose --file=$OUTPUT_FILE \
+    serial/**/*py \
+    flask/**/*py \
+    jinja2/**/*py \
+    markupsafe/**/*py \
+    click/**/*py \
+    itsdangerous.py \
+    werkzeug/**/*py

@@ -23,7 +23,7 @@ class Control extends React.Component {
           type="range"
           min={controlValues.min}
           max={controlValues.max}
-          step="0.01"
+          step="1"
           style={style}
           value={controlValues.degrees}
           onChange={e => {

@@ -80,8 +80,7 @@ function init() {
   scene.add(firstPersonCameraContainer);
 
   //helper grids
-
-  const grid = new THREE.GridHelper(planeSize, planeSize);
+  const grid = new THREE.GridHelper(planeSize, planeSize, 'lime');
   scene.add(grid);
 
   const middleLineColor = 'yellow';

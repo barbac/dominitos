@@ -6,8 +6,8 @@ import Controls from './Controls.jsx';
 function Ui({ model }) {
   return (
     <React.Fragment>
-      <Toolbar />
       <Controls robot={model} />
+      <Toolbar />
     </React.Fragment>
   );
 }

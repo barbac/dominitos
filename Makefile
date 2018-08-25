@@ -9,6 +9,9 @@ test:
 server_backend:
 	FLASK_APP=server.py FLASK_DEBUG=1 flask run --host=0.0.0.0
 
+server_backend_production:
+	FLASK_APP=server.py python -m flask run --host=0.0.0.0
+
 server_backend_test:
 	NO_SERIAL=1 FLASK_APP=server.py FLASK_DEBUG=1 flask run --host=0.0.0.0
 

@@ -17,7 +17,8 @@ servers: server_frontend server_backend
 servers_test: server_frontend server_backend_test
 
 dist/bundle.js:
-	SERVER_URL='//' ./node_modules/.bin/webpack
+	#use the same url as the client
+	SERVER_URL='' ./node_modules/.bin/webpack
 
 package.tar.gz: dist/bundle.js
 	./scripts/package.sh

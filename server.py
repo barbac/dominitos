@@ -1,10 +1,26 @@
 from flask import Flask, request, Response, send_from_directory
+import sys
 from os import environ
 import serial
+from serial.tools import list_ports
 
+
+devices = []
+device = None
+for port in list_ports.comports():
+    if port.manufacturer and 'arduino' in port.manufacturer.lower():
+        print('arduino found:', port.device)
+        devices.append(port.device)
+
+if len(devices) == 1:
+    device = devices[0]
+elif not len(devices):
+    print('no arduino found')
+else:
+    print('more than 1 arduino found')
 
 NO_SERIAL = environ.get('NO_SERIAL')
-serial_port = None if NO_SERIAL else serial.Serial('/dev/ttyACM0')
+serial_port = None if NO_SERIAL else serial.Serial(device)
 
 app = Flask(__name__)
 
@@ -30,7 +46,7 @@ def values():
     body = ''
 
     if request.method == 'POST':
-        print('po')
+        print('serial port', serial_port)
         for value in request.json:
             # message = value.to_bytes(2, 'little')
             message = bytes([int(value)])
@@ -39,7 +55,9 @@ def values():
                 serial_port.write(message)
         print()
         if serial_port:
-            print('in', serial_port.readline())
+            pass
+            #TODO: read everything.
+            # print('in', serial_port.readline())
         body = 'ok'
     else:
         print('wtf')

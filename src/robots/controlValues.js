@@ -8,7 +8,7 @@ class RotationControlValues {
   axis = null;
   object3d = null;
   _macro = null;
-  _degreesValue = 0;
+  _degreesValue = 90;
   setRadians = null;
   updateMacro = true;
 
@@ -21,6 +21,7 @@ class RotationControlValues {
       this._macro = macro;
       this.macro = macro;
     }
+    this.degrees = this._degreesValue;
   }
 
   set macro(macro) {

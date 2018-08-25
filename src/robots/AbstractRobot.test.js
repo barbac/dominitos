@@ -4,6 +4,13 @@ import arm from './arm.js';
 test('simulation', () => {
   const robot = new arm(true);
   const controls = robot.controls;
+
+  //set initial state
+  controls.get('waist').degrees = 0;
+  controls.get('shoulder').degrees = 0;
+  controls.get('elbow').degrees = 0;
+  controls.get('wrist pitch').degrees = 0;
+
   const simulation = robot.playMacroGenerator();
 
   const steps = [

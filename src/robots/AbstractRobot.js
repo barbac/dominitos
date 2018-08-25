@@ -13,12 +13,12 @@ export default class AbstractRobot {
   dimensions = {};
   macros = [];
   macro = null;
-  controlValues = null;
+  controlValuesType = null;
   controls = new Map();
   idle = true;
 
   constructor(controllerRobot = false) {
-    this.controlValues = RotationControlValues;
+    this.controlValuesType = RotationControlValues;
     if (controllerRobot) {
       this.addMacro('default macro');
       this.macro = this.macros[0];
@@ -45,7 +45,7 @@ export default class AbstractRobot {
   }
 
   addControl(object3D, name, property) {
-    const control = new this.controlValues(
+    const control = new this.controlValuesType(
       object3D,
       name,
       property,

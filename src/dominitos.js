@@ -44,7 +44,8 @@ const dominoThickness = 0.7;
 
 const vehicleDominoGap = 20;
 
-const { vehicleHeight, vehicleWidth } = armDimensions;
+const { vehicleWidth } = armDimensions;
+const vehicleHeight = 10;
 
 const vehicleStartPosition = new THREE.Vector3(
   -planeSize / 2 + 10,
@@ -91,6 +92,13 @@ function init() {
 
   const grid = new THREE.GridHelper(planeSize, planeSize);
   scene.add(grid);
+  const rightCloseMark = new THREE.Mesh(
+    new THREE.BoxGeometry(2, 2, 2),
+    new THREE.MeshBasicMaterial({ color: 'orange' })
+  );
+  rightCloseMark.position.x = planeSize / 2;
+  rightCloseMark.position.z = planeSize / 4;
+  grid.add(rightCloseMark);
 
   const sphere = new THREE.SphereGeometry(1, 32, 32);
 
@@ -117,7 +125,7 @@ function init() {
   topRightMark.position.set(
     vehicleWidth / 2,
     vehicleHeight / 2 - markWidth / 2,
-    -vehicleWidth / 2
+    vehicleWidth / 2
   );
   vehicle.add(topRightMark);
 

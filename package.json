@@ -4,27 +4,27 @@
   "main": "index.js",
   "author": "barbac <jjbarbac+git@gmail.com>",
   "dependencies": {
-    "lodash": "^4.17.10",
-    "page": "^1.8.6",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
+    "lodash": "^4.17.11",
+    "page": "^1.10.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
     "three": "^0.93.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.5",
-    "babel-loader": "^7.1.4",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.4",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.11",
-    "eslint": "^5.0.0",
-    "eslint-loader": "^2.0.0",
-    "eslint-plugin-react": "^7.9.1",
-    "jest": "^23.3.0",
-    "style-loader": "^0.21.0",
-    "webpack": "^4.8.1",
-    "webpack-cli": "^3.0.8",
-    "webpack-dev-server": "^3.1.4"
+    "eslint": "^5.6.1",
+    "eslint-loader": "^2.1.1",
+    "eslint-plugin-react": "^7.11.1",
+    "jest": "^23.6.0",
+    "style-loader": "^0.23.0",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.9"
   }
 }

@@ -24,14 +24,19 @@ export default function(length, color) {
   );
   triangle.faces.push(new THREE.Face3(0, 1, 2));
 
-  const head = new THREE.Mesh(
-    triangle,
-    new THREE.MeshBasicMaterial({ color: 'magenta' })
-  );
-  head.position.x = length / 2 - triangleHeight;
+  const head = new THREE.Object3D();
+  head.position.x = length / 2;
   line.add(head);
+
+  const arrowHead = new THREE.Mesh(
+    triangle,
+    new THREE.MeshBasicMaterial({ color: 'magenta', wireframe: true })
+  );
+  arrowHead.position.x = -triangleHeight;
+  head.add(arrowHead);
 
   const vectorLine = new THREE.Object3D();
   vectorLine.add(line);
+  vectorLine.head = head;
   return vectorLine;
 }

@@ -16,6 +16,9 @@ module.exports = {
     host: '0.0.0.0',
     disableHostCheck: true,
     contentBase: distDir,
+    watchOptions: {
+      ignored: /node_modules/
+    }
   },
   devtool: 'cheap-module-source-map',
   module: {

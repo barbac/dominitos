@@ -4,6 +4,7 @@
   "main": "index.js",
   "author": "barbac <jjbarbac+git@gmail.com>",
   "dependencies": {
+    "johnny-five": "^1.0.0",
     "lodash": "^4.17.11",
     "page": "^1.10.2",
     "react": "^16.5.2",

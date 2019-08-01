@@ -1,7 +1,10 @@
-.PHONY: server_frontend server_backend test clean
+.PHONY: server_frontend server_frontend_with_backend server_backend servers test clean
 
 server_frontend:
-	 SERVER_URL='http://localhost:5000' ./node_modules/.bin/webpack-dev-server --mode development
+	 ./node_modules/.bin/webpack-dev-server --mode development
+
+server_frontend_with_backend:
+	 SERVER_URL='http://localhost:9001' ./node_modules/.bin/webpack-dev-server --mode development
 
 test:
 	node_modules/.bin/jest
@@ -17,7 +20,7 @@ server_backend_test:
 
 servers: server_frontend server_backend
 
-servers_test: server_frontend server_backend_test
+servers_test: server_frontend_with_backend server_backend_test
 
 dist/bundle.js:
 	#use the same url as the client

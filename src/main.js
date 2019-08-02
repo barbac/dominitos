@@ -11,10 +11,10 @@ import manualControls from './playground/manualControls.js';
 
 settings.init();
 
-page('/dominitos.html', dominitos);
-page('/model.html', modelLoader);
-page('/world.html', worldView);
-page('/vectors.html', vectors);
-page('/controls.html', manualControls);
-page('/scara.html', Scara);
+page(/\w*\/dominitos.html/, dominitos);
+page(/\w*\/model.html/, modelLoader);
+page(/\w*\/world.html/, worldView);
+page(/\w*\/vectors.html/, vectors);
+page(/\w*\/controls.html/, manualControls);
+page(/\w*\/scara.html/, Scara);
 page();

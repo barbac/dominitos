@@ -3,6 +3,13 @@ import settings from './settings.js';
 import initUi from './ui/initUi.jsx';
 import { storeMacros, loadMacros } from './macros/macroStore.js';
 
+const DEFAULT_STATE = {
+  firstPersonCamera: {
+    position: { x: 37.46, y: 10, z: -27.56 },
+    rotation: { x: 0.26, y: -10.29 },
+  },
+};
+
 let scene, camera, renderer;
 let firstPersonCamera, firstPersonCameraContainer;
 const cameras = {};
@@ -22,6 +29,11 @@ function firstPersonCameraRotation(event) {
 }
 
 function wasdCameraMovement(event) {
+  if (event.key == 'l') {
+    settings.lockCamera = !settings.lockCamera;
+    return;
+  }
+
   if (settings.lockCamera) {
     return;
   }
@@ -132,7 +144,8 @@ function init() {
 }
 
 function loadState() {
-  const state = JSON.parse(window.localStorage.getItem('state'));
+  const state =
+    JSON.parse(window.localStorage.getItem('state')) || DEFAULT_STATE;
 
   firstPersonCameraContainer.position.x = state.firstPersonCamera.position.x;
   firstPersonCameraContainer.position.y = state.firstPersonCamera.position.y;
